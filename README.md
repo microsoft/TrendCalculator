@@ -22,7 +22,9 @@ The library takes four input parameters:-
 
 4. **listOfModels<T>**:- This is the input data provided to the algorithm with the list of models over which the trending is to be calculated.
    1. *listOfModels* should implement the interface *TInterface* of the library which contains the following three attributes: *LocalZ*(double),*GLobalZ*(double),*countWithPeriods*(a list of integer type)
-   2. countWithPeriods consists of the number of times a particular model was consumed in the segments of the windowPeriod. Mathematically speaking , countWithPeriods.Count should be equal to the *windowPeriod x noOfSegmentsOfEachUnit* or be equal to (windowPeriod+1) x noOfSegmentsOfEachUnit.
+   2. countWithPeriods consists of the number of times a particular model was consumed in the segments of the windowPeriod. Mathematically speaking , CountWithPeriods.Count should be >= *windowPeriod x noOfSegmentsOfEachUnit* and <= (windowPeriod+1) x noOfSegmentsOfEachUnit.
+    
+    Each of the model type T, should inherit from the TInterface of the NuGet package.
     
     The algorithm takes into account the virtual windowsPeriod, lets say the algorithm is run for the windowPeriod of 6 months in the month of June 2020 and the data for June is not yet complete, so in order to compensate for that , the data can be provided for December 2019 to June 2020.If not using the virtual windowPeriod, the data must be provided for January 2020 to June 2020.
 
