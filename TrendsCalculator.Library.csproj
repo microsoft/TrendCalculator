@@ -5,12 +5,12 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Calculate Trending Models for a given input data bucketed windows period, with each window segmented into equal parts.
 Models must contain these three attributes:-
-1)localz(double)
-2)globalz(double)
-3)countWithPeriods(List&lt;int&gt;) with 
-size of list =(windowPeriod+1)*number of segments of each unit
-OR
-size of list =(windowPeriod)*number of segments of each unit
+1)LocalZ(double)
+2)GlobalZ(double)
+3)CountWithPeriods(List&lt;int&gt;) with 
+size of list is greater than or equal to (windowPeriod)*number of segments of each unit
+AND
+size of list less than or equal to (windowPeriod+1)*number of segments of each unit
 
 Returns a List&lt;T&gt; containing list of trending models.</Description>
     <Version>1.0.2</Version>
