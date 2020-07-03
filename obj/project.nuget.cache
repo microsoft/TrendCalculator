@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "HL4nbIRIV7wfaezJey3L4V6l10phCKj1WJKGuZon8/6/xGXMJNPxVC+ohZMa1CUhUdOb7ezjSm3+8t1il0+O+g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\t-pubhal\\Source\\Repos\\PS-GCM-PSP-OPBackgroundApps\\OPBackgroundApps\\TrendsCalculator.Library\\TrendsCalculator.Library.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\t-pubhal\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\t-pubhal\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

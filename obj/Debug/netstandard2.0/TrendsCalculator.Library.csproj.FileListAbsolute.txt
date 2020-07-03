@@ -1,0 +1,9 @@
+C:\Users\t-pubhal\Source\Repos\PS-GCM-PSP-OPBackgroundApps\OPBackgroundApps\TrendsCalculator.Library\bin\Debug\netstandard2.0\TrendsCalculator.Library.deps.json
+C:\Users\t-pubhal\Source\Repos\PS-GCM-PSP-OPBackgroundApps\OPBackgroundApps\TrendsCalculator.Library\bin\Debug\netstandard2.0\TrendsCalculator.Library.dll
+C:\Users\t-pubhal\Source\Repos\PS-GCM-PSP-OPBackgroundApps\OPBackgroundApps\TrendsCalculator.Library\bin\Debug\netstandard2.0\TrendsCalculator.Library.pdb
+C:\Users\t-pubhal\Source\Repos\PS-GCM-PSP-OPBackgroundApps\OPBackgroundApps\TrendsCalculator.Library\obj\Debug\netstandard2.0\TrendsCalculator.Library.AssemblyInfoInputs.cache
+C:\Users\t-pubhal\Source\Repos\PS-GCM-PSP-OPBackgroundApps\OPBackgroundApps\TrendsCalculator.Library\obj\Debug\netstandard2.0\TrendsCalculator.Library.AssemblyInfo.cs
+C:\Users\t-pubhal\Source\Repos\PS-GCM-PSP-OPBackgroundApps\OPBackgroundApps\TrendsCalculator.Library\obj\Debug\netstandard2.0\TrendsCalculator.Library.csproj.CoreCompileInputs.cache
+C:\Users\t-pubhal\Source\Repos\PS-GCM-PSP-OPBackgroundApps\OPBackgroundApps\TrendsCalculator.Library\obj\Debug\netstandard2.0\TrendsCalculator.Library.dll
+C:\Users\t-pubhal\Source\Repos\PS-GCM-PSP-OPBackgroundApps\OPBackgroundApps\TrendsCalculator.Library\obj\Debug\netstandard2.0\TrendsCalculator.Library.pdb
+C:\Users\t-pubhal\Source\Repos\PS-GCM-PSP-OPBackgroundApps\OPBackgroundApps\TrendsCalculator.Library\obj\Debug\netstandard2.0\TrendsCalculator.Library.csprojAssemblyReference.cache
