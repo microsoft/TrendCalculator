@@ -9,48 +9,30 @@ using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 {
-    internal class TrendingCalculateForZMeanCriteria<T> : ITrendingStrategy<T> where T : TInterface
+    internal class TrendingCalculateForZMeanCriteria : BaseTrendingCalculator
     {
-        public IEnumerable<T> CalculateTrendingModels(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
+        internal override IAlgoCriteria GetAlgoConstruct()
         {
+            return new GlobalZCalculationZMeanCriteria();
+    }
 
-            List<T> trendingModels = new List<T>();
-            trendingModels = (List<T>)listOfModels;
-
-            if(trendingModels[0].CountWithPeriods.Count >= (windowPeriod*numberOfSegmentsOfEachUnit) &&
-                trendingModels[0].CountWithPeriods.Count <= ((windowPeriod+1)*numberOfSegmentsOfEachUnit))
+        internal override List<T> PostProcessZScore<T>(List<T> trendingModels)
+        {
+            var trendingModelsGlobalZMeanCriteria = new List<T>();
+            double meanGlobalZ = GlobalZCalculationZMeanCriteria.MeanGlobalZ;
+            foreach (T model in trendingModels)
             {
-                int noOfColumns = trendingModels[0].CountWithPeriods.Count;
-
-                // LOGIC FOR COMPONENTIZING THE TRENDING SKILL
-                //DIVIDE THE WINDOW INTO HISTORY SEGMENT AND TRENDING SEGMENT
-                HistoricalSegmentColumns historicalSegmentColumns = new HistoricalSegmentColumns();
-                List<int> getHistoricalSegmentColumns = historicalSegmentColumns.GetHistoricalSegmentColumns(windowPeriod, noOfColumns, numberOfSegmentsOfEachUnit);
-
-                TrendingSegmentColumns trendingSegmentColumns = new TrendingSegmentColumns();
-                List<int> getTrendingSegmentColumns = trendingSegmentColumns.GetTrendingSegmentColumns(windowPeriod, noOfColumns, numberOfSegmentsOfEachUnit);
-
-                //Calculating Local Z Value
-                LocalZValueCalculation<T> localZValueCalculation = new LocalZValueCalculation<T>();
-                trendingModels = localZValueCalculation.CalcualteLocalZValue(trendingModels, getHistoricalSegmentColumns, getTrendingSegmentColumns);
-
-                //Calculating Global Z Value
-                GlobalZCalculationZMeanCriteria<T> globalZValueCalculation = new GlobalZCalculationZMeanCriteria<T>();
-                trendingModels = globalZValueCalculation.CalculateGlobalZValue(trendingModels, getHistoricalSegmentColumns, getTrendingSegmentColumns);
-
-                //Dividing The Models Into Three Categories
-                CategoryDivisionOfModels<T> categoryDivisionOfModels = new CategoryDivisionOfModels<T>();
-                List<List<T>> listOfCategoriesOfTrendingModels = categoryDivisionOfModels.GetModelsIntoCategory(trendingModels);
-
-                //Sorting The Categories And Combining The Result
-                SortingCombiningResults<T> sortingCombiningResults = new SortingCombiningResults<T>();
-                trendingModels = sortingCombiningResults.GetSortedCombinedResult(listOfCategoriesOfTrendingModels);
-
-                return trendingModels;
+                if (model.GlobalZ >= meanGlobalZ)
+                {
+                    trendingModelsGlobalZMeanCriteria.Add(model);
+                }
             }
-            else
-                throw new ArgumentException("Insufficient data as columns in the countWithPeriods attribute of the models");
+            if (trendingModelsGlobalZMeanCriteria.Count > 1)
+            {
+                SortingGlobalZ<T> sortingGLobalZ = new SortingGlobalZ<T>();
+                trendingModelsGlobalZMeanCriteria.Sort(0, trendingModelsGlobalZMeanCriteria.Count, sortingGLobalZ);
+            }
+            return trendingModelsGlobalZMeanCriteria;
         }
-
     }
 }
