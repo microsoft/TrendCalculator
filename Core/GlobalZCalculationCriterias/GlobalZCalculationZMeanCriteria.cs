@@ -11,12 +11,12 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
     /// This class calculates the GLobalZ value for each model and also the mean GLobalZ which will help in segregating the trending models from the list
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class GlobalZCalculationZMeanCriteria<T> where T : TInterface
+    internal class GlobalZCalculationZMeanCriteria: IAlgoCriteria
     {
-        public static double meanGlobalZ;
-        public List<T> CalculateGlobalZValue(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns)
+        public static double MeanGlobalZ;
+        public List<T> CalculateGlobalZValue<T>(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T: TInterface
         {
-            meanGlobalZ = 0.0;
+            MeanGlobalZ = 0.0;
             double sumGlobalZ = 0.0;
             double mean = (double)0.0;
             double standardDeviation = 0.0;
@@ -56,7 +56,7 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
                 sumGlobalZ += globalZ;
                 model.GlobalZ = globalZ;
             }
-            meanGlobalZ = sumGlobalZ / trendingModels.Count;
+            MeanGlobalZ = sumGlobalZ / trendingModels.Count;
             return trendingModels;
         }
         double CalculateStandardDeviation(List<int> values, double mean)

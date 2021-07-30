@@ -30,20 +30,26 @@ namespace TrendsCalculator.Library
         /// <param name="numberOfSegmentsOfEachUnit">Number of segments in each bucket</param>
         /// <param name="listOfModels">List of raw data to evaluate for trend</param>
         /// <returns></returns>
-        public List<T> EvalAndGetTrendingData(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
+        public IEnumerable<T> FindTrendingData(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
         {
             var validationMessage = IsInputDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
             if (!string.IsNullOrWhiteSpace(validationMessage))
                 throw new ArgumentNullException(validationMessage);
 
+            BaseTrendingCalculator baseCalculator = null;
             switch (_strategy) 
             {
                 case TrendCalculationStrategy.ZMean:
-                    return this.GetTrendingModelsZMeanCriteria(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
+                    baseCalculator = new TrendingCalculateForZMeanCriteria();
+                    break;
                 case TrendCalculationStrategy.Custom:
                 default:
-                    return this.GetTrendingModelsCustomCriteria(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
+                    baseCalculator = new TrendingCalculateForCustomCriteria();
+                    break;
             }
+
+            var trendingModels = baseCalculator.CalculateTrending<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
+            return baseCalculator.PostProcessZScore<T>(trendingModels?.ToList());
         }
 
         private string IsInputDataValid(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
@@ -58,37 +64,9 @@ namespace TrendsCalculator.Library
 
             return validationMessage;
         }
-
-
-        private List<T> GetTrendingModelsZMeanCriteria(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
-        {
-            TrendingContext<T> trendingContext = new TrendingContext<T>(new TrendingCalculateForZMeanCriteria<T>());
-            List<T> trendingModels = (List<T>)trendingContext.ContextInterface(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
-            List<T> trendingModelsGlobalZMeanCriteria = new List<T>();
-            double meanGlobalZ = GlobalZCalculationZMeanCriteria<T>.meanGlobalZ;
-            foreach (T model in trendingModels)
-            {
-                if (model.GlobalZ >= meanGlobalZ)
-                {
-                    trendingModelsGlobalZMeanCriteria.Add(model);
-                }
-            }
-            if (trendingModelsGlobalZMeanCriteria.Count > 1)
-            {
-                SortingGLobalZ<T> sortingGLobalZ = new SortingGLobalZ<T>();
-                trendingModelsGlobalZMeanCriteria.Sort(0, trendingModelsGlobalZMeanCriteria.Count, sortingGLobalZ);
-            }
-            return trendingModelsGlobalZMeanCriteria;
-        }
-        private  List<T> GetTrendingModelsCustomCriteria(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
-        {
-            TrendingContext<T> trendingContext = new TrendingContext<T>(new TrendingCalculateForCustomCriteria<T>());
-            List<T> trendingModels = (List<T>)trendingContext.ContextInterface(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
-            return trendingModels;
-        }
     }
 
-    internal class SortingGLobalZ<T> : IComparer<T> where T : TInterface
+    internal class SortingGlobalZ<T> : IComparer<T> where T : TInterface
     {
         public int Compare(T x, T y)
         {

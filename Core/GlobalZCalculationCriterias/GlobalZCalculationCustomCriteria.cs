@@ -11,9 +11,9 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
     /// This class calculates the GLobalZ value for each model 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class GlobalZCalculationCustomCriteria<T> where T : TInterface
+    internal class GlobalZCalculationCustomCriteria: IAlgoCriteria
     {
-        public List<T> CalculateGlobalZValue(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns)
+        public List<T> CalculateGlobalZValue<T>(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T: TInterface
         {
             double mean = (double)0.0;
             double standardDeviation = 0.0;
@@ -21,7 +21,7 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
             List<int> values = new List<int>();
             double sumHistorySegmentColumns = 0.0;
 
-            //This foreach block calcualtes the sum of all the values in the history segment for all models to calculate the global mean and standard deviation
+            //This for each block calculates the sum of all the values in the history segment for all models to calculate the global mean and standard deviation
             foreach (T model in trendingModels)
             {
                 foreach (int column in historicalSegmentColumns)
@@ -40,7 +40,7 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
             if (standardDeviation == 0)
                 standardDeviation = 1.0;
 
-            //This foreach block calcualtes the globalz values for each value in the trending segment of the models and then takes the mean of them,
+            //This for each block calculates the globalZ values for each value in the trending segment of the models and then takes the mean of them,
             //to calculate the GlobalZ value for the model 
             foreach (T model in trendingModels)
             {
