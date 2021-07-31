@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "jx3WRg62rTaSc47F2J7jrLz+iB+5TuOvdO7HUc35LU1JEy6Fruf+lI9D953A6EBlP+DiMzDu9KTBSclSo69Cyw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\puwalech\\Documents\\GitHub\\TrendCalculator\\TrendsCalculator.Library.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\puwalech\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\puwalech\\.nuget\\packages\\mstest.testframework\\2.1.0\\mstest.testframework.2.1.0.nupkg.sha512",
+    "C:\\Users\\puwalech\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

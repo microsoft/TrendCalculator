@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>TrendsCalculator</id>
+    <version>1.0.2</version>
+    <authors>Microsoft Developers</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Calculate Trending Models for a given input data bucketed windows period, with each window segmented into equal parts.
+Models must contain these three attributes:-
+1)LocalZ(double)
+2)GlobalZ(double)
+3)CountWithPeriods(List&lt;int&gt;) with 
+size of list is greater than or equal to (windowPeriod)*number of segments of each unit
+AND
+size of list less than or equal to (windowPeriod+1)*number of segments of each unit
+
+Returns a List&lt;T&gt; containing list of trending models.</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="MSTest.TestFramework" version="2.1.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\puwalech\Documents\GitHub\TrendCalculator\bin\Debug\netstandard2.0\TrendsCalculator.Library.dll" target="lib\netstandard2.0\TrendsCalculator.Library.dll" />
+  </files>
+</package>

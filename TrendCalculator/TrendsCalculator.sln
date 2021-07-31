@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31327.30
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsCalculator.Library", "TrendsCalculator.Library.csproj", "{37EE169F-0DB3-43A3-B400-C98A7DA39543}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E857FD6D-BCEE-49CB-A25C-6E8F09E2BD34}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{061CACEA-E247-4C13-99AC-AC2F519087E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsCalculator.Sample", "..\TrendsCalculator.Client\TrendsCalculator.Sample\TrendsCalculator.Sample.csproj", "{D650EAF7-4C32-436E-A5B0-832D0CD6D899}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsCalculator.Test", "..\TrendsCalculator.Test\TrendsCalculator.Test\TrendsCalculator.Test.csproj", "{BD39D112-504A-44DF-8D4E-F27C38641901}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D69EA40C-E5B9-4DFF-82D5-20B5DF2D2C5E}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37EE169F-0DB3-43A3-B400-C98A7DA39543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37EE169F-0DB3-43A3-B400-C98A7DA39543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37EE169F-0DB3-43A3-B400-C98A7DA39543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37EE169F-0DB3-43A3-B400-C98A7DA39543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D650EAF7-4C32-436E-A5B0-832D0CD6D899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D650EAF7-4C32-436E-A5B0-832D0CD6D899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D650EAF7-4C32-436E-A5B0-832D0CD6D899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D650EAF7-4C32-436E-A5B0-832D0CD6D899}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD39D112-504A-44DF-8D4E-F27C38641901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD39D112-504A-44DF-8D4E-F27C38641901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD39D112-504A-44DF-8D4E-F27C38641901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD39D112-504A-44DF-8D4E-F27C38641901}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D650EAF7-4C32-436E-A5B0-832D0CD6D899} = {061CACEA-E247-4C13-99AC-AC2F519087E7}
+		{BD39D112-504A-44DF-8D4E-F27C38641901} = {E857FD6D-BCEE-49CB-A25C-6E8F09E2BD34}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94026CBC-0902-4FC8-9903-C64730E56D00}
+	EndGlobalSection
+EndGlobal
