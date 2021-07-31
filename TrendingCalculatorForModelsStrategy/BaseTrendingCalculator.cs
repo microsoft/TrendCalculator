@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
 using TrendsCalculator.Library.AlgoComponents;
 using TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias;
 using TrendsCalculator.Library.Interfaces;
@@ -11,7 +9,7 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 {
     internal abstract class BaseTrendingCalculator
     {
-        private bool ValidateInputParams<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> trendingModels) where T: TInterface
+        private bool ValidateInputParams<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> trendingModels) where T : TInterface
         {
             if (trendingModels?.First()?.CountWithPeriods.Count < (windowPeriod * numberOfSegmentsOfEachUnit) &&
                 trendingModels?.First()?.CountWithPeriods.Count > ((windowPeriod + 1) * numberOfSegmentsOfEachUnit))
@@ -62,6 +60,6 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 
         internal abstract IAlgoCriteria GetAlgoConstruct();
 
-        internal abstract List<T> PostProcessZScore<T>(List<T> trendingModels) where T: TInterface;
+        internal abstract List<T> PostProcessZScore<T>(List<T> trendingModels) where T : TInterface;
     }
 }

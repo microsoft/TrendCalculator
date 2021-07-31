@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias;
 using TrendsCalculator.Library.Core.Strategy;
 using TrendsCalculator.Library.Interfaces;
 using TrendsCalculator.Library.TrendingCalculatorForModelsStrategy;
@@ -37,7 +36,7 @@ namespace TrendsCalculator.Library
                 throw new ArgumentNullException(validationMessage);
 
             BaseTrendingCalculator baseCalculator = null;
-            switch (_strategy) 
+            switch (_strategy)
             {
                 case TrendCalculationStrategy.ZMean:
                     baseCalculator = new TrendingCalculateForZMeanCriteria();

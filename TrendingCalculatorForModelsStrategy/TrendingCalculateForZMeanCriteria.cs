@@ -1,11 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
-using TrendsCalculator.Library.AlgoComponents;
 using TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias;
-using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 {
@@ -14,7 +11,7 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
         internal override IAlgoCriteria GetAlgoConstruct()
         {
             return new GlobalZCalculationZMeanCriteria();
-    }
+        }
 
         internal override List<T> PostProcessZScore<T>(List<T> trendingModels)
         {

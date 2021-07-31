@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsCalculator.Library", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E857FD6D-BCEE-49CB-A25C-6E8F09E2BD34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendsCalculator.Test", "..\TrendsCalculator.Test\TrendsCalculator.Test.csproj", "{D1E26F27-F5D2-4F4A-A080-FDCE0C2DF488}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsCalculator.Test", "..\TrendsCalculator.Test\TrendsCalculator.Test.csproj", "{D1E26F27-F5D2-4F4A-A080-FDCE0C2DF488}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{061CACEA-E247-4C13-99AC-AC2F519087E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendsCalculator.Client", "..\TrendsCalculator.Client\TrendsCalculator.Client.csproj", "{0225C735-7252-4EA0-B59A-F8F2956EF013}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendsCalculator.Client", "..\TrendsCalculator.Client\TrendsCalculator.Client.csproj", "{0225C735-7252-4EA0-B59A-F8F2956EF013}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
