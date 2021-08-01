@@ -11,10 +11,10 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
     /// This class calculates the GLobalZ value for each model and also the mean GLobalZ which will help in segregating the trending models from the list
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class GlobalZCalculationZMeanCriteria: IAlgoCriteria
+    internal class GlobalZCalculationZMeanCriteria : IGlobalZCalculationCriteria
     {
         public static double MeanGlobalZ;
-        public List<T> CalculateGlobalZValue<T>(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T: TInterface
+        public List<T> CalculateGlobalZValue<T>(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T : TInterface
         {
             MeanGlobalZ = 0.0;
             double sumGlobalZ = 0.0;

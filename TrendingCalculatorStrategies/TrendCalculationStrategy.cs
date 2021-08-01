@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TrendsCalculator.Library.Core.Strategy
+﻿namespace TrendsCalculator.Library.Core.Strategy
 {
     /// <summary>
-    /// This enum enabled to set the trend calculation strategy 
+    /// This Enum enabled to set the trend calculation strategy 
     /// </summary>
     public enum TrendCalculationStrategy
     {

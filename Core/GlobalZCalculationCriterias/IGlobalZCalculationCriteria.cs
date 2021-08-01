@@ -6,7 +6,7 @@ using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
 {
-    internal interface IAlgoCriteria
+    internal interface IGlobalZCalculationCriteria
     {
         List<T> CalculateGlobalZValue<T>(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T : TInterface;
     }

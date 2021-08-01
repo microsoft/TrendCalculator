@@ -27,9 +27,6 @@ namespace TrendsCalculator.Library.AlgoComponents
             if (BothGlobalZLocalZ_Negative_3.Count - 1 > 0)
                 BothGlobalZLocalZ_Negative_3.Sort(0, BothGlobalZLocalZ_Negative_3.Count, sortingBothPositiveNegative);
 
-
-
-
             foreach (T model in BothGlobalZLocalZ_Positive_1)
                 trendingModels.Add(model);
 
