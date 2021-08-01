@@ -13,7 +13,7 @@ namespace TrendsCalculator.Library.AlgoComponents
     /// <typeparam name="T">TInterface to adhere to</typeparam>
     internal class LocalZValueCalculation<T> where T : TInterface
     {
-        public List<T> CalcualteLocalZValue(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns)
+        internal List<T> CalcualteLocalZValue(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns)
         {
             //The ForEach block calculates the sum of the entries in the history segment of countWithPeriods of each model,
             //to aid in calculation of mean and standard deviation for  each model
@@ -50,8 +50,8 @@ namespace TrendsCalculator.Library.AlgoComponents
             }
             return trendingModels;
         }
-        //Function to calculate the Standard DEviation
-        double CalculateStandardDeviation(List<int> values, double mean)
+        //Function to calculate the Standard Deviation
+        private double CalculateStandardDeviation(List<int> values, double mean)
         {
             double standardDeviation = 0.0;
             double summation = 0.0;

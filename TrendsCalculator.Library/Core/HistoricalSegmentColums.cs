@@ -7,7 +7,7 @@ namespace TrendsCalculator.Library.AlgoComponents
 {
     internal class HistoricalSegmentColumns
     {
-        public List<int> GetHistoricalSegmentColumns(int windowPeriod, int noOfColumns, int numberOfSegmentsOfEachUnit)
+        internal List<int> GetHistoricalSegmentColumns(int windowPeriod, int noOfColumns, int numberOfSegmentsOfEachUnit)
         {
             List<int> historicalSegmentColumns = new List<int>();
             int referenceColumn = 0;
