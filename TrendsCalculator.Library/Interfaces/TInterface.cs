@@ -11,6 +11,8 @@ namespace TrendsCalculator.Library.Interfaces
     {
         double LocalZ { get; set; }
         double GlobalZ { get; set; }
+        int SupplyQuantity { get; set; }
+        double DemandSupplyQuotient { get; set; }
         List<int> CountWithPeriods { get; set; }
     }
 }
