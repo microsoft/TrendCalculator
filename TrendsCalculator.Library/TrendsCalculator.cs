@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias;
 using TrendsCalculator.Library.Core.Strategy;
 using TrendsCalculator.Library.Interfaces;
 using TrendsCalculator.Library.TrendingCalculatorForModelsStrategy;
@@ -26,9 +25,9 @@ namespace TrendsCalculator.Library
         /// <summary>
         /// This method evaluates the trending data based on the strategy selected
         /// </summary>
-        /// <param name="windowPeriod">Window Period to consider for bucketing</param>
-        /// <param name="numberOfSegmentsOfEachUnit">Number of segments in each bucket</param>
-        /// <param name="listOfModels">List of raw data to evaluate for trend</param>
+        /// <param name="windowPeriod">Window Period to consider for bucketing your input data. E.g. Last 6 months data means window period is 6</param>
+        /// <param name="numberOfSegmentsOfEachUnit">Number of segments in each window unit. E.g. each window is divided into 2 buckets</param>
+        /// <param name="listOfModels">List of T Model containing the input list of data used for finding trending data</param>
         /// <returns></returns>
         public IEnumerable<T> FindTrendingData(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
         {
@@ -36,15 +35,15 @@ namespace TrendsCalculator.Library
             if (!string.IsNullOrWhiteSpace(validationMessage))
                 throw new ArgumentNullException(validationMessage);
 
-            BaseTrendingCalculator baseCalculator = null;
-            switch (_strategy) 
+            AbstractTrendingCalculator baseCalculator = null;
+            switch (_strategy)
             {
                 case TrendCalculationStrategy.ZMean:
-                    baseCalculator = new TrendingCalculateForZMeanCriteria();
+                    baseCalculator = new ZMeanTrendingCalculator();
                     break;
                 case TrendCalculationStrategy.Custom:
                 default:
-                    baseCalculator = new TrendingCalculateForCustomCriteria();
+                    baseCalculator = new CustomTrendingCalculator();
                     break;
             }
 

@@ -8,14 +8,14 @@ using TrendsCalculator.Library.Interfaces;
 namespace TrendsCalculator.Library.AlgoComponents
 {
     /// <summary>
-    /// This class calcualtes the value of LocalZ for each of the models
+    /// This class calculates the value of LocalZ for each of the models
     /// </summary>
     /// <typeparam name="T">TInterface to adhere to</typeparam>
     internal class LocalZValueCalculation<T> where T : TInterface
     {
-        public List<T> CalcualteLocalZValue(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns)
+        internal List<T> CalcualteLocalZValue(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns)
         {
-            //The foreach block calcualtes the sum of the entries in the history segment of countWithPeriods of each model,
+            //The ForEach block calculates the sum of the entries in the history segment of countWithPeriods of each model,
             //to aid in calculation of mean and standard deviation for  each model
             foreach (T model in trendingModels)
             {
@@ -36,7 +36,7 @@ namespace TrendsCalculator.Library.AlgoComponents
                 if (standardDeviation == 0)
                     standardDeviation = 1.0;
 
-                //This foreach block calcualtes the localz values for each column in the trending segment and then finally calcualtes the mean of them
+                //This ForEach block calculates the LocalZ values for each column in the trending segment and then finally calcualtes the mean of them
                 //to account for the LocalZ value for a model
                 double sumTempLocalZ = 0.0;
                 foreach (int column in trendingSegmentColumns)
@@ -50,8 +50,8 @@ namespace TrendsCalculator.Library.AlgoComponents
             }
             return trendingModels;
         }
-        //Fucntion to calcualte the Standard DEviation
-        double CalculateStandardDeviation(List<int> values, double mean)
+        //Function to calculate the Standard Deviation
+        private double CalculateStandardDeviation(List<int> values, double mean)
         {
             double standardDeviation = 0.0;
             double summation = 0.0;
