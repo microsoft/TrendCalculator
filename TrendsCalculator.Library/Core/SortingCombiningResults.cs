@@ -16,18 +16,9 @@ namespace TrendsCalculator.Library.AlgoComponents
             List<T> BothGlobalZLocalZ_Negative_3 = categoryTrendingModels[2];
             List<T> trendingModels = new List<T>();
 
-            BothGlobalZLocalZ_Positive_1 = BothGlobalZLocalZ_Positive_1.OrderByDescending(x => x.GlobalZ).ToList();
-            BothGlobalZLocalZ_Alternate_2 = BothGlobalZLocalZ_Alternate_2.OrderByDescending(x => x.LocalZ).ToList();
-            BothGlobalZLocalZ_Negative_3 = BothGlobalZLocalZ_Negative_3.OrderByDescending(x => x.GlobalZ).ToList();
-
-            foreach (T model in BothGlobalZLocalZ_Positive_1)
-                trendingModels.Add(model);
-
-            foreach (T model in BothGlobalZLocalZ_Alternate_2)
-                trendingModels.Add(model);
-
-            foreach (T model in BothGlobalZLocalZ_Negative_3)
-                trendingModels.Add(model);
+            trendingModels.AddRange(BothGlobalZLocalZ_Positive_1.OrderByDescending(x => x.GlobalZ));
+            trendingModels.AddRange(BothGlobalZLocalZ_Alternate_2.OrderByDescending(x => x.LocalZ));
+            trendingModels.AddRange(BothGlobalZLocalZ_Negative_3.OrderByDescending(x => x.GlobalZ));
 
             return trendingModels;
         }
@@ -43,15 +34,9 @@ namespace TrendsCalculator.Library.AlgoComponents
             BothGlobalZLocalZ_Alternate_2 = BothGlobalZLocalZ_Alternate_2.OrderByDescending(x => x.DemandSupplyQuotient).ToList();
             BothGlobalZLocalZ_Negative_3 = BothGlobalZLocalZ_Negative_3.OrderByDescending(x => x.DemandSupplyQuotient).ToList();
 
-
-            foreach (T model in BothGlobalZLocalZ_Positive_1)
-                trendingModels.Add(model);
-
-            foreach (T model in BothGlobalZLocalZ_Alternate_2)
-                trendingModels.Add(model);
-
-            foreach (T model in BothGlobalZLocalZ_Negative_3)
-                trendingModels.Add(model);
+            trendingModels.AddRange(BothGlobalZLocalZ_Positive_1.OrderByDescending(x => x.DemandSupplyQuotient));
+            trendingModels.AddRange(BothGlobalZLocalZ_Alternate_2.OrderByDescending(x => x.DemandSupplyQuotient));
+            trendingModels.AddRange(BothGlobalZLocalZ_Negative_3.OrderByDescending(x => x.DemandSupplyQuotient));
 
             return trendingModels;
         }
