@@ -3,10 +3,11 @@
 
 using System.Collections.Generic;
 using TrendsCalculator.Library.Interfaces;
+using TrendsCalculator.Library.Sorter;
 
 namespace TrendsCalculator.Library.AlgoComponents
 {
-    internal class SortingCombiningResults<T> where T : TInterface
+    internal class SortingCombiningResults<T> where T : TInternal
     {
         public List<T> GetSortedCombinedResult(List<List<T>> categoryTrendingModels)
         {
@@ -39,18 +40,5 @@ namespace TrendsCalculator.Library.AlgoComponents
             return trendingModels;
         }
     }
-    internal class SortingBothPositiveNegative<T> : IComparer<T> where T : TInterface
-    {
-        public int Compare(T x, T y)
-        {
-            return (x.GlobalZ <= y.GlobalZ) ? 1 : -1;
-        }
-    }
-    internal class SortingAlternate<T> : IComparer<T> where T : TInterface
-    {
-        public int Compare(T x, T y)
-        {
-            return (x.LocalZ <= y.LocalZ) ? 1 : -1;
-        }
-    }
+   
 }

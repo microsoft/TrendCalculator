@@ -13,7 +13,7 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
     /// <typeparam name="T"></typeparam>
     internal class GlobalZCalculationCustomCriteria : IGlobalZCalculationCriteria
     {
-        public List<T> CalculateGlobalZValue<T>(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T : TInterface
+        public List<T> CalculateGlobalZValue<T>(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T : TInternal
         {
             double mean = (double)0.0;
             double standardDeviation = 0.0;

@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias;
+using TrendsCalculator.Library.Sorter;
 
 namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 {
@@ -26,7 +27,7 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
             }
             if (trendingModelsGlobalZMeanCriteria.Count > 1)
             {
-                SortingGlobalZ<T> sortingGLobalZ = new SortingGlobalZ<T>();
+                GlobalZSorter<T> sortingGLobalZ = new GlobalZSorter<T>();
                 trendingModelsGlobalZMeanCriteria.Sort(0, trendingModelsGlobalZMeanCriteria.Count, sortingGLobalZ);
             }
             return trendingModelsGlobalZMeanCriteria;

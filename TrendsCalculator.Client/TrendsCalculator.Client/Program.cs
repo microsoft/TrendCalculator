@@ -27,7 +27,7 @@ namespace TrendsCalculator.Client
 
         internal static class DataPreparator
         {
-            internal static IEnumerable<TestInputModel> PrepareData()
+            internal static List<TestInputModel> PrepareData()
             {
                 return new List<TestInputModel>()
             {

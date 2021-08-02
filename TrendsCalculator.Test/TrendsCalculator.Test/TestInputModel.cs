@@ -3,7 +3,7 @@ using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Test
 {
-    internal class TestInputModel : TInterface
+    internal class TestInputModel : TInternal
     {
         public double LocalZ { get; set; }
         public double GlobalZ { get; set; }

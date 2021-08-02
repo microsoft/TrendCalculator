@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using TrendsCalculator.Library.Core.Strategy;
 using TrendsCalculator.Library.Interfaces;
 using TrendsCalculator.Library.TrendingCalculatorForModelsStrategy;
@@ -22,6 +24,21 @@ namespace TrendsCalculator.Library
             _strategy = strategy;
         }
 
+        private static TInternal TransformTInterfaceToTInternal(T input)
+        {
+            foreach (PropertyInfo prop in input.GetType().GetProperties())
+                TInternal.GetType().GetProperty(prop.Name).SetValue(this, prop.GetValue(input, null), null);
+            return (dynamic)input;
+            //TInternal output = new Internal()
+            //{
+            //    CountWithPeriods = input.CountWithPeriods,
+            //    GlobalZ = 0,
+            //    LocalZ = 0
+            //};
+            //return output;
+        }
+
+
         /// <summary>
         /// This method evaluates the trending data based on the strategy selected
         /// </summary>
@@ -29,11 +46,14 @@ namespace TrendsCalculator.Library
         /// <param name="numberOfSegmentsOfEachUnit">Number of segments in each window unit. E.g. each window is divided into 2 buckets</param>
         /// <param name="listOfModels">List of T Model containing the input list of data used for finding trending data</param>
         /// <returns></returns>
-        public IEnumerable<T> FindTrendingData(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
+        public IEnumerable<T> FindTrendingData(int windowPeriod, int numberOfSegmentsOfEachUnit, List<T> listOfModels)
         {
             var validationMessage = IsInputDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
             if (!string.IsNullOrWhiteSpace(validationMessage))
                 throw new ArgumentNullException(validationMessage);
+
+
+            var transformedModel = listOfModels.ConvertAll(new Converter<T, TInternal>(TransformTInterfaceToTInternal));
 
             AbstractTrendingCalculator baseCalculator = null;
             switch (_strategy)
@@ -47,8 +67,8 @@ namespace TrendsCalculator.Library
                     break;
             }
 
-            var trendingModels = baseCalculator.CalculateTrending<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
-            return baseCalculator.PostProcessZScore<T>(trendingModels?.ToList());
+            var trendingModels = baseCalculator.CalculateTrending<TInternal>(windowPeriod, numberOfSegmentsOfEachUnit, transformedModel);
+            return baseCalculator.PostProcessZScore<TInternal>(trendingModels?.ToList()) as List<T>;
         }
 
         private string IsInputDataValid(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
@@ -62,14 +82,6 @@ namespace TrendsCalculator.Library
                 validationMessage = "listOfModels can't have zero records";
 
             return validationMessage;
-        }
-    }
-
-    internal class SortingGlobalZ<T> : IComparer<T> where T : TInterface
-    {
-        public int Compare(T x, T y)
-        {
-            return (x.GlobalZ <= y.GlobalZ) ? 1 : -1;
         }
     }
 }

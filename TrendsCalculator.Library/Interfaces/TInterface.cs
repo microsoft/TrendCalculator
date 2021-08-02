@@ -9,8 +9,8 @@ namespace TrendsCalculator.Library.Interfaces
 {
     public interface TInterface
     {
-        double LocalZ { get; set; }
-        double GlobalZ { get; set; }
+        //double LocalZ { get; set; }
+        //double GlobalZ { get; set; }
         List<int> CountWithPeriods { get; set; }
     }
 }

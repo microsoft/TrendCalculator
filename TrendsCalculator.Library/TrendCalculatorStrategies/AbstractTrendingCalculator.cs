@@ -20,7 +20,7 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
             return true;
         }
 
-        internal IEnumerable<T> CalculateTrending<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels) where T : TInterface
+        internal IEnumerable<T> CalculateTrending<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels) where T : TInterface, TInternal
         {
             List<T> trendingModels = new List<T>();
             trendingModels = (List<T>)listOfModels;
@@ -60,6 +60,6 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 
         internal abstract IGlobalZCalculationCriteria GetAlgoConstruct();
 
-        internal abstract List<T> PostProcessZScore<T>(List<T> trendingModels) where T : TInterface;
+        internal abstract List<T> PostProcessZScore<T>(List<T> trendingModels) where T : TInterface, TInternal;
     }
 }
