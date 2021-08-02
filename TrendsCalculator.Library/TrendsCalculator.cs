@@ -42,13 +42,26 @@ namespace TrendsCalculator.Library
                     baseCalculator = new ZMeanTrendingCalculator();
                     break;
                 case TrendCalculationStrategy.Custom:
+                    baseCalculator = new CustomTrendingCalculator();
+                    break;
+                case TrendCalculationStrategy.DemandSupply:
+                    baseCalculator = new DemandSupplyTrendingCalculator();
+                    break;
                 default:
                     baseCalculator = new CustomTrendingCalculator();
                     break;
             }
 
-            var trendingModels = baseCalculator.CalculateTrending<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
-            return baseCalculator.PostProcessZScore<T>(trendingModels?.ToList());
+            if(_strategy==TrendCalculationStrategy.DemandSupply)
+            {
+                var trendingModels = baseCalculator.CalculateTrendingV2<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
+                return baseCalculator.PostProcessZScore<T>(trendingModels?.ToList());
+            }
+            else
+            {
+                var trendingModels = baseCalculator.CalculateTrending<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
+                return baseCalculator.PostProcessZScore<T>(trendingModels?.ToList());
+            }
         }
 
         private string IsInputDataValid(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
