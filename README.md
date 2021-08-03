@@ -13,8 +13,10 @@ To install this library, please download the latest version of  [NuGet Package](
 The library takes four input parameters:-
 
 1. Enum of the type **TrendsCalculationStrategy** which has two predefined enumeration values signifying the type of stratregy required in filtering of results:
-   1. **ZMean**:- This constant evaluates and return trending models based on the Z mean value (threshold value is z mean value).
-   2. **Custom**:- This constant gives the the entire list sorted in order of trends evaluated (sorted by global Z, local Z).
+   1. **ZMean**:- This Enum evaluates and return trending models based on the Z mean value (threshold value is z mean value).
+   2. **Custom**:- This Enum gives the the entire list sorted in order of trends evaluated (sorted by global Z, local Z).
+   3. **DemandSupply**:- This Enum evaluates and return trending models based on the Demand and Supply. If there is a Demand for a particular entity over a certain period and   
+         the supply is less, then it qualifies for the trending. This model also uses beneath the Z-Score model for evaluation.
 
 2. **windowPeriod**:- This integer input defines the period over which the trending models are to be calculated.
 
