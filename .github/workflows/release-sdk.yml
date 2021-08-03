@@ -14,7 +14,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore TrendsCalculator.Library/TrendsCalculator.Library.csproj
     - name: Build
-      run: dotnet build --Configuration Release TrendsCalculator.Library/TrendsCalculator.Library.csproj --no-restore
+      run: dotnet build TrendsCalculator.Library/TrendsCalculator.Library.csproj --no-restore
     - name: Test
       run: dotnet test TrendsCalculator.Library/TrendsCalculator.Library.csproj --no-restore --verbosity normal
     - name: Pack
