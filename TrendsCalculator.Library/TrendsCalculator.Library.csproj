@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Description>Calculate Trending Models for a given input data bucketed windows period, with each window segmented into equal parts.
 Models must contain these three attributes:-
 1)LocalZ(double)
@@ -13,12 +15,16 @@ AND
 size of list less than or equal to (windowPeriod+1)*number of segments of each unit
 
 Returns a List&lt;T&gt; containing list of trending models.</Description>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageId>TrendsCalculator</PackageId>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
-    <Authors>Microsoft Developers</Authors>
+    <Authors>Purunjay Bhal, Puneet Walecha</Authors>
     <Company>Microsoft</Company>
     <Product>TrendsCalculator</Product>
+    <PackageTags>Trending, Trend, Statistics, C#</PackageTags>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/microsoft/TrendCalculator</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
 </Project>
