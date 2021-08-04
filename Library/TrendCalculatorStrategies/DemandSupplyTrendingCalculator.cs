@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TrendsCalculator.Library.AlgoComponents;
 using TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias;
 using TrendsCalculator.Library.Core;
@@ -8,20 +9,14 @@ using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 {
-    internal abstract class AbstractTrendingCalculator
+    internal class DemandSupplyTrendingCalculator : AbstractTrendingCalculator
     {
-        protected bool ValidateInputParams<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> trendingModels) where T : TInterface
+        internal override IGlobalZCalculationCriteria GetAlgoConstruct()
         {
-            if (trendingModels?.First()?.CountWithPeriods.Count < (windowPeriod * numberOfSegmentsOfEachUnit) &&
-                trendingModels?.First()?.CountWithPeriods.Count > ((windowPeriod + 1) * numberOfSegmentsOfEachUnit))
-            {
-                throw new ArgumentException("Insufficient data as columns in the countWithPeriods attribute of the models");
-            }
-
-            return true;
+            return new GlobalZCalculationCustomCriteria();
         }
 
-        internal virtual IEnumerable<(T item, double localZ, double globalZ)> CalculateTrending<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels) where T : TInterface
+        internal override IEnumerable<(T item, double localZ, double globalZ)> CalculateTrending<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
         {
             List<T> trendingModels = new List<T>();
             trendingModels = (List<T>)listOfModels;
@@ -49,16 +44,39 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
                 CategoryDivisionOfModels<T> categoryDivisionOfModels = new CategoryDivisionOfModels<T>();
                 var listOfCategoriesOfTrendingModels = categoryDivisionOfModels.GetModelsIntoCategory(calculatedTrendingModels);
 
+                //Calculation Of Trending Quotient By Dividing With SupplyQuantity
+                var list = CalculateQuotient(listOfCategoriesOfTrendingModels);
+
                 //Sorting The Categories And Combining The Result
                 SortingCombiningResults<T> sortingCombiningResults = new SortingCombiningResults<T>();
-                return sortingCombiningResults.GetSortedCombinedResult(listOfCategoriesOfTrendingModels);
+                return sortingCombiningResults.GetSortedCombinedResultV2(list);
             }
-
             return null;
         }
 
-        internal abstract IGlobalZCalculationCriteria GetAlgoConstruct();
+        private List<List<(T item, double localZ, double globalZ)>> CalculateQuotient<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T: TInterface
+        {
+            for (int i = 0; i < categoryTrendingModels.Count; i++)
+            {
+                for (int j = 0; j < categoryTrendingModels[i].Count; j++)
+                {
+                    double denominator = 1.0;
+                    if (categoryTrendingModels[i][j].item.SupplyQuantity == 0)
+                        denominator = 1.0;
+                    else
+                        denominator = (double)(categoryTrendingModels[i][j].item.SupplyQuantity * 1.0);
 
-        internal abstract List<(T item, double localZ, double globalZ)> PostProcessZScore<T>(List<(T item, double localZ, double globalZ)> trendingModels) where T : TInterface;
+                    double quotient = (double)(categoryTrendingModels[i][j].globalZ / denominator);
+                    categoryTrendingModels[i][j].item.DemandSupplyQuotient = quotient;
+                }
+            }
+
+            return categoryTrendingModels;
+        }
+
+        internal override List<(T item, double localZ, double globalZ)> PostProcessZScore<T>(List<(T item, double localZ, double globalZ)> trendingModels)
+        {
+            return trendingModels;
+        }
     }
 }

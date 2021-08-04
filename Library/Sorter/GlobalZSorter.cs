@@ -5,26 +5,26 @@ using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.Sorter
 {
-    internal class GlobalZSorter<T> : IComparer<T> where T : TInternal
+    internal class GlobalZSorter<T> : IComparer<(T item, double localZ, double globalZ)> where T : TInterface
     {
-        public int Compare(T x, T y)
+        public int Compare((T item, double localZ, double globalZ) x, (T item, double localZ, double globalZ) y)
         {
-            return (x.GlobalZ <= y.GlobalZ) ? 1 : -1;
+            return (x.globalZ <= y.globalZ) ? 1 : -1;
         }
     }
 
-    internal class SortingBothPositiveNegative<T> : IComparer<T> where T : TInternal
+    internal class SortingBothPositiveNegative<T> : IComparer<(T item, double localZ, double globalZ)> where T : TInterface
     {
-        public int Compare(T x, T y)
+        public int Compare((T item, double localZ, double globalZ) x, (T item, double localZ, double globalZ) y)
         {
-            return (x.GlobalZ <= y.GlobalZ) ? 1 : -1;
+            return (x.globalZ <= y.globalZ) ? 1 : -1;
         }
     }
-    internal class SortingAlternate<T> : IComparer<T> where T : TInternal
-    {
-        public int Compare(T x, T y)
+    internal class SortingAlternate<T> : IComparer<(T item, double localZ, double globalZ)> where T : TInterface
+{
+        public int Compare((T item, double localZ, double globalZ) x, (T item, double localZ, double globalZ) y)
         {
-            return (x.LocalZ <= y.LocalZ) ? 1 : -1;
+            return (x.localZ <= y.localZ) ? 1 : -1;
         }
     }
 }

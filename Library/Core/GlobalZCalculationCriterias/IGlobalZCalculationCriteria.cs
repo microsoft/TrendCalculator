@@ -8,6 +8,6 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
 {
     internal interface IGlobalZCalculationCriteria
     {
-        List<T> CalculateGlobalZValue<T>(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T : TInternal;
+        List<(T item, double localZ, double globalZ)> CalculateGlobalZValue<T>(List<(T item, double localZ, double globalZ)> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T : TInterface;
     }
 }

@@ -13,7 +13,7 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
             return new GlobalZCalculationCustomCriteria();
         }
 
-        internal override List<T> PostProcessZScore<T>(List<T> trendingModels)
+        internal override List<(T item, double localZ, double globalZ)> PostProcessZScore<T>(List<(T item, double localZ, double globalZ)> trendingModels)
         {
             return trendingModels;
         }

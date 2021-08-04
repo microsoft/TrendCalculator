@@ -2,40 +2,42 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Linq;
 using TrendsCalculator.Library.Interfaces;
 using TrendsCalculator.Library.Sorter;
 
 namespace TrendsCalculator.Library.AlgoComponents
 {
-    internal class SortingCombiningResults<T> where T : TInternal
+    internal class SortingCombiningResults<T> where T : TInterface
     {
-        public List<T> GetSortedCombinedResult(List<List<T>> categoryTrendingModels)
+        public List<(T item, double localZ, double globalZ)> GetSortedCombinedResult(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels)
         {
-            List<T> BothGlobalZLocalZ_Positive_1 = categoryTrendingModels[0];
-            List<T> BothGlobalZLocalZ_Alternate_2 = categoryTrendingModels[1];
-            List<T> BothGlobalZLocalZ_Negative_3 = categoryTrendingModels[2];
-            List<T> trendingModels = new List<T>();
+            var BothGlobalZLocalZ_Positive_1 = categoryTrendingModels[0];
+            var BothGlobalZLocalZ_Alternate_2 = categoryTrendingModels[1];
+            var BothGlobalZLocalZ_Negative_3 = categoryTrendingModels[2];
+            var trendingModels = new List<(T item, double localZ, double globalZ)>();
 
-            SortingBothPositiveNegative<T> sortingBothPositiveNegative = new SortingBothPositiveNegative<T>();
-            SortingAlternate<T> sortingAlternate = new SortingAlternate<T>();
+            trendingModels.AddRange(BothGlobalZLocalZ_Positive_1.OrderByDescending(x => x.globalZ));
+            trendingModels.AddRange(BothGlobalZLocalZ_Alternate_2.OrderByDescending(x => x.localZ));
+            trendingModels.AddRange(BothGlobalZLocalZ_Negative_3.OrderByDescending(x => x.globalZ));
 
-            if (BothGlobalZLocalZ_Positive_1.Count - 1 > 0)
-                BothGlobalZLocalZ_Positive_1.Sort(0, BothGlobalZLocalZ_Positive_1.Count, sortingBothPositiveNegative);
+            return trendingModels;
+        }
 
-            if (BothGlobalZLocalZ_Alternate_2.Count - 1 > 0)
-                BothGlobalZLocalZ_Alternate_2.Sort(0, BothGlobalZLocalZ_Alternate_2.Count, sortingAlternate);
+        public List<(T item, double localZ, double globalZ)> GetSortedCombinedResultV2(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels)
+        {
+            var bothGlobalZLocalZ_Positive_1 = categoryTrendingModels[0];
+            var bothGlobalZLocalZ_Alternate_2 = categoryTrendingModels[1];
+            var bothGlobalZLocalZ_Negative_3 = categoryTrendingModels[2];
+            var trendingModels = new List<(T item, double localZ, double globalZ)>();
 
-            if (BothGlobalZLocalZ_Negative_3.Count - 1 > 0)
-                BothGlobalZLocalZ_Negative_3.Sort(0, BothGlobalZLocalZ_Negative_3.Count, sortingBothPositiveNegative);
+            bothGlobalZLocalZ_Positive_1 = bothGlobalZLocalZ_Positive_1.OrderByDescending(x => x.item.DemandSupplyQuotient).ToList();
+            bothGlobalZLocalZ_Alternate_2 = bothGlobalZLocalZ_Alternate_2.OrderByDescending(x => x.item.DemandSupplyQuotient).ToList();
+            bothGlobalZLocalZ_Negative_3 = bothGlobalZLocalZ_Negative_3.OrderByDescending(x => x.item.DemandSupplyQuotient).ToList();
 
-            foreach (T model in BothGlobalZLocalZ_Positive_1)
-                trendingModels.Add(model);
-
-            foreach (T model in BothGlobalZLocalZ_Alternate_2)
-                trendingModels.Add(model);
-
-            foreach (T model in BothGlobalZLocalZ_Negative_3)
-                trendingModels.Add(model);
+            trendingModels.AddRange(bothGlobalZLocalZ_Positive_1.OrderByDescending(x => x.item.DemandSupplyQuotient));
+            trendingModels.AddRange(bothGlobalZLocalZ_Alternate_2.OrderByDescending(x => x.item.DemandSupplyQuotient));
+            trendingModels.AddRange(bothGlobalZLocalZ_Negative_3.OrderByDescending(x => x.item.DemandSupplyQuotient));
 
             return trendingModels;
         }

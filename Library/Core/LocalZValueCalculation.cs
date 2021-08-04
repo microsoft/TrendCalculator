@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.AlgoComponents
@@ -11,10 +12,11 @@ namespace TrendsCalculator.Library.AlgoComponents
     /// This class calculates the value of LocalZ for each of the models
     /// </summary>
     /// <typeparam name="T">TInterface to adhere to</typeparam>
-    internal class LocalZValueCalculation<T> where T : TInternal
+    internal class LocalZValueCalculation<T> where T : TInterface
     {
-        internal List<T> CalcualteLocalZValue(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns)
+        internal List<(T item,double localZ, double globalZ)> CalculateLocalZValue(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns)
         {
+            var calculatedLocalZItems = new List<(T item, double localZ, double globalZ)>();
             //The ForEach block calculates the sum of the entries in the history segment of countWithPeriods of each model,
             //to aid in calculation of mean and standard deviation for  each model
             foreach (T model in trendingModels)
@@ -45,10 +47,10 @@ namespace TrendsCalculator.Library.AlgoComponents
                 }
 
                 double LocalZ = sumTempLocalZ / trendingSegmentColumns.Count;
-
-                model.LocalZ = LocalZ;
+                calculatedLocalZItems.Add((model,LocalZ,0));
+                //model.LocalZ = LocalZ;
             }
-            return trendingModels;
+            return calculatedLocalZItems;
         }
         //Function to calculate the Standard Deviation
         private double CalculateStandardDeviation(List<int> values, double mean)
