@@ -26,9 +26,9 @@ namespace TrendsCalculator.Library
 
         private static TInternal TransformTInterfaceToTInternal(T input)
         {
-            foreach (PropertyInfo prop in input.GetType().GetProperties())
-                TInternal.GetType().GetProperty(prop.Name).SetValue(this, prop.GetValue(input, null), null);
-            return (dynamic)input;
+            //foreach (PropertyInfo prop in input.GetType().GetProperties())
+            //    TInternal.GetType().GetProperty(prop.Name).SetValue(this, prop.GetValue(input, null), null);
+            //return (dynamic)input;
             //TInternal output = new Internal()
             //{
             //    CountWithPeriods = input.CountWithPeriods,
@@ -36,6 +36,7 @@ namespace TrendsCalculator.Library
             //    LocalZ = 0
             //};
             //return output;
+            return null;
         }
 
 
