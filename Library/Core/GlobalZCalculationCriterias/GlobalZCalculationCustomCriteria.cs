@@ -13,7 +13,7 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
     /// <typeparam name="T"></typeparam>
     internal class GlobalZCalculationCustomCriteria : IGlobalZCalculationCriteria
     {
-        public List<T> CalculateGlobalZValue<T>(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T : TInterface
+        public List<(T item, double localZ, double globalZ)> CalculateGlobalZValue<T>(List<(T item, double localZ, double globalZ)> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T: TInterface
         {
             double mean = (double)0.0;
             double standardDeviation = 0.0;
@@ -22,13 +22,13 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
             double sumHistorySegmentColumns = 0.0;
 
             //This for each block calculates the sum of all the values in the history segment for all models to calculate the global mean and standard deviation
-            foreach (T model in trendingModels)
+            foreach (var model in trendingModels)
             {
                 foreach (int column in historicalSegmentColumns)
                 {
-                    sumHistorySegmentColumns += model.CountWithPeriods[column];
+                    sumHistorySegmentColumns += model.item.CountWithPeriods[column];
                     count++;
-                    values.Add(model.CountWithPeriods[column]);
+                    values.Add(model.item.CountWithPeriods[column]);
                 }
             }
 
@@ -42,16 +42,17 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
 
             //This for each block calculates the globalZ values for each value in the trending segment of the models and then takes the mean of them,
             //to calculate the GlobalZ value for the model 
-            foreach (T model in trendingModels)
+            for(int increment = 0;increment < trendingModels.Count; increment++)
             {
                 double sumTempGlobalZ = 0.0;
                 foreach (int column in trendingSegmentColumns)
                 {
-                    sumTempGlobalZ += ((model.CountWithPeriods[column] * 1.0) - mean) / standardDeviation;
+                    sumTempGlobalZ += ((trendingModels[increment].item.CountWithPeriods[column] * 1.0) - mean) / standardDeviation;
                 }
                 double globalZ = sumTempGlobalZ / trendingSegmentColumns.Count;
-                model.GlobalZ = globalZ;
+                trendingModels[increment] = (trendingModels[increment].item, trendingModels[increment].localZ,globalZ);
             }
+
             return trendingModels;
         }
 

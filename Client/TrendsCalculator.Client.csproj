@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TrendsCalculator.Library\TrendsCalculator.Library.csproj" />
+    <ProjectReference Include="..\Library\TrendsCalculator.Library.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using TrendsCalculator.Library.Core.Strategy;
+using TrendsCalculator.Library.Helper;
 using TrendsCalculator.Library.Interfaces;
 using TrendsCalculator.Library.TrendingCalculatorForModelsStrategy;
 
@@ -22,6 +25,7 @@ namespace TrendsCalculator.Library
             _strategy = strategy;
         }
 
+        
         /// <summary>
         /// This method evaluates the trending data based on the strategy selected
         /// </summary>
@@ -29,11 +33,17 @@ namespace TrendsCalculator.Library
         /// <param name="numberOfSegmentsOfEachUnit">Number of segments in each window unit. E.g. each window is divided into 2 buckets</param>
         /// <param name="listOfModels">List of T Model containing the input list of data used for finding trending data</param>
         /// <returns></returns>
-        public IEnumerable<T> FindTrendingData(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
+        public IEnumerable<T> FindTrendingData(int windowPeriod, int numberOfSegmentsOfEachUnit, List<T> listOfModels)
         {
             var validationMessage = IsInputDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
             if (!string.IsNullOrWhiteSpace(validationMessage))
                 throw new ArgumentNullException(validationMessage);
+            
+            //var listOfTransformedModels = new List<TInternal>();
+            //List<dynamic> information = new List<dynamic>();
+            
+            //ExtensionMethods.CopyPropertiesTo<T, TInternal>(listOfModels, listOfTransformedModels);
+            //var transformedModel = listOfModels.ConvertAll(new Converter<T, TInternal>(TransformTInterfaceToTInternal));
 
             AbstractTrendingCalculator baseCalculator = null;
             switch (_strategy)
@@ -52,16 +62,9 @@ namespace TrendsCalculator.Library
                     break;
             }
 
-            if(_strategy==TrendCalculationStrategy.DemandSupply)
-            {
-                var trendingModels = baseCalculator.CalculateTrendingV2<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
-                return baseCalculator.PostProcessZScore<T>(trendingModels?.ToList());
-            }
-            else
-            {
-                var trendingModels = baseCalculator.CalculateTrending<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
-                return baseCalculator.PostProcessZScore<T>(trendingModels?.ToList());
-            }
+            var trendingModels = baseCalculator.CalculateTrending<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
+            return baseCalculator.PostProcessZScore<T>(trendingModels.ToList()).Select(x => x.item);
+        
         }
 
         private string IsInputDataValid(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
@@ -75,14 +78,6 @@ namespace TrendsCalculator.Library
                 validationMessage = "listOfModels can't have zero records";
 
             return validationMessage;
-        }
-    }
-
-    internal class SortingGlobalZ<T> : IComparer<T> where T : TInterface
-    {
-        public int Compare(T x, T y)
-        {
-            return (x.GlobalZ <= y.GlobalZ) ? 1 : -1;
         }
     }
 }

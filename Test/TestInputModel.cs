@@ -5,8 +5,6 @@ namespace TrendsCalculator.Test
 {
     internal class TestInputModel : TInterface
     {
-        public double LocalZ { get; set; }
-        public double GlobalZ { get; set; }
         public int SupplyQuantity { get; set; }
         public double DemandSupplyQuotient { get; set; }
         public List<int> CountWithPeriods { get; set; }
