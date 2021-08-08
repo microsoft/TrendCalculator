@@ -11,19 +11,16 @@ namespace TrendsCalculator.Client
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var trendingCalculator = new TrendsCalculator<TestInputModel>(TrendCalculationStrategy.DemandSupply);
+            var trendingCalculator = new TrendsCalculator.Library.TrendsCalculator(TrendCalculationStrategy.DemandSupply);
             var inputData = DataPreparator.PrepareData();
-            var output = trendingCalculator.FindTrendingData(6, 1, inputData);
+            var output = trendingCalculator.FindTrendingDataOnDemandSupply<TestInputModel>(6, 1, inputData);
             Console.WriteLine("Sorted per Demand Supply criteria");
         }
 
-        internal class TestInputModel : TInterface
+        internal class TestInputModel : TDemandSupplyModel
         {
-            public double LocalZ { get; set; }
-            public double GlobalZ { get; set; }
-            public int SupplyQuantity { get; set; }
-            public double DemandSupplyQuotient { get; set; }
-            public List<int> CountWithPeriods { get; set; }
+            //public double LocalZ { get; set; }
+            //public double GlobalZ { get; set; }
             public string MovieName { get; set; }
         }
 

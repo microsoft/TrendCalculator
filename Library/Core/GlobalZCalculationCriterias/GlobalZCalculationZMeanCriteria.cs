@@ -14,7 +14,7 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
     internal class GlobalZCalculationZMeanCriteria : IGlobalZCalculationCriteria
     {
         public static double MeanGlobalZ;
-        public List<(T item, double localZ, double globalZ)> CalculateGlobalZValue<T>(List<(T item, double localZ, double globalZ)> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T : TInterface
+        public List<(T item, double localZ, double globalZ)> CalculateGlobalZValue<T>(List<(T item, double localZ, double globalZ)> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns) where T : TModel
         {
             //var calculatedGlobalZItems = new List<(T item, double localZ)>();
             MeanGlobalZ = 0.0;

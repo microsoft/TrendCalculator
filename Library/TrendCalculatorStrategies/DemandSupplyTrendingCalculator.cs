@@ -11,50 +11,21 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 {
     internal class DemandSupplyTrendingCalculator : AbstractTrendingCalculator
     {
+        private int _demandQuotient;
+        private double _supplyQuantity;
+        
         internal override IGlobalZCalculationCriteria GetAlgoConstruct()
         {
             return new GlobalZCalculationCustomCriteria();
         }
-
-        internal override IEnumerable<(T item, double localZ, double globalZ)> CalculateTrending<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
+        
+        public new List<(T item, double localZ, double globalZ)> GetSortedCombinedResult<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T : TDemandSupplyModel
         {
-            List<T> trendingModels = new List<T>();
-            trendingModels = (List<T>)listOfModels;
-            if (ValidateInputParams<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels))
-            {
-                int noOfColumns = trendingModels[0].CountWithPeriods.Count;
-
-                // LOGIC FOR COMPONENTIZING THE TRENDING SKILL
-                //DIVIDE THE WINDOW INTO HISTORY SEGMENT AND TRENDING SEGMENT
-                HistoricalSegmentColumns historicalSegmentColumns = new HistoricalSegmentColumns();
-                List<int> getHistoricalSegmentColumns = historicalSegmentColumns.GetHistoricalSegmentColumns(windowPeriod, noOfColumns, numberOfSegmentsOfEachUnit);
-
-                TrendingSegmentColumns trendingSegmentColumns = new TrendingSegmentColumns();
-                List<int> getTrendingSegmentColumns = trendingSegmentColumns.GetTrendingSegmentColumns(windowPeriod, noOfColumns, numberOfSegmentsOfEachUnit);
-
-                //Calculating Local Z Value
-                LocalZValueCalculation<T> localZValueCalculation = new LocalZValueCalculation<T>();
-                var calculatedTrendingModels = localZValueCalculation.CalculateLocalZValue(trendingModels, getHistoricalSegmentColumns, getTrendingSegmentColumns);
-
-                //Calculating Global Z Value
-                var globalZValueCalculator = this.GetAlgoConstruct();
-                calculatedTrendingModels = globalZValueCalculator.CalculateGlobalZValue<T>(calculatedTrendingModels, getHistoricalSegmentColumns, getTrendingSegmentColumns);
-
-                //Dividing The Models Into Three Categories
-                CategoryDivisionOfModels<T> categoryDivisionOfModels = new CategoryDivisionOfModels<T>();
-                var listOfCategoriesOfTrendingModels = categoryDivisionOfModels.GetModelsIntoCategory(calculatedTrendingModels);
-
-                //Calculation Of Trending Quotient By Dividing With SupplyQuantity
-                var list = CalculateQuotient(listOfCategoriesOfTrendingModels);
-
-                //Sorting The Categories And Combining The Result
-                SortingCombiningResults<T> sortingCombiningResults = new SortingCombiningResults<T>();
-                return sortingCombiningResults.GetSortedCombinedResultV2(list);
-            }
-            return null;
+            var list = CalculateQuotient<T>(categoryTrendingModels);
+            var sortingCombiningResults = new SortingCombiningResults();
+            return sortingCombiningResults.GetSortedCombinedResultV2<T>(list);
         }
-
-        private List<List<(T item, double localZ, double globalZ)>> CalculateQuotient<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T: TInterface
+        private List<List<(Y item, double localZ, double globalZ)>> CalculateQuotient<Y>(List<List<(Y item, double localZ, double globalZ)>> categoryTrendingModels) where Y: TDemandSupplyModel
         {
             for (int i = 0; i < categoryTrendingModels.Count; i++)
             {

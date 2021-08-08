@@ -10,7 +10,7 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 {
     internal abstract class AbstractTrendingCalculator
     {
-        protected bool ValidateInputParams<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> trendingModels) where T : TInterface
+        protected bool ValidateInputParams<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> trendingModels) where T : TModel 
         {
             if (trendingModels?.First()?.CountWithPeriods.Count < (windowPeriod * numberOfSegmentsOfEachUnit) &&
                 trendingModels?.First()?.CountWithPeriods.Count > ((windowPeriod + 1) * numberOfSegmentsOfEachUnit))
@@ -21,9 +21,9 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
             return true;
         }
 
-        internal virtual IEnumerable<(T item, double localZ, double globalZ)> CalculateTrending<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels) where T : TInterface
+        public virtual List<List<(T item, double localZ, double globalZ)>> CalculateTrending<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels) where T : TModel
         {
-            List<T> trendingModels = new List<T>();
+            var trendingModels = new List<T>();
             trendingModels = (List<T>)listOfModels;
             if (ValidateInputParams<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels))
             {
@@ -47,18 +47,20 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
 
                 //Dividing The Models Into Three Categories
                 CategoryDivisionOfModels<T> categoryDivisionOfModels = new CategoryDivisionOfModels<T>();
-                var listOfCategoriesOfTrendingModels = categoryDivisionOfModels.GetModelsIntoCategory(calculatedTrendingModels);
-
-                //Sorting The Categories And Combining The Result
-                SortingCombiningResults<T> sortingCombiningResults = new SortingCombiningResults<T>();
-                return sortingCombiningResults.GetSortedCombinedResult(listOfCategoriesOfTrendingModels);
+                return categoryDivisionOfModels.GetModelsIntoCategory(calculatedTrendingModels);
             }
 
             return null;
         }
 
+        public List<(T item, double localZ, double globalZ)> GetSortedCombinedResult<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T : TModel
+        {
+            SortingCombiningResults sortingCombiningResults = new SortingCombiningResults();
+            return sortingCombiningResults.GetSortedCombinedResult<T>(categoryTrendingModels);
+        }
+
         internal abstract IGlobalZCalculationCriteria GetAlgoConstruct();
 
-        internal abstract List<(T item, double localZ, double globalZ)> PostProcessZScore<T>(List<(T item, double localZ, double globalZ)> trendingModels) where T : TInterface;
+        internal abstract List<(T item, double localZ, double globalZ)> PostProcessZScore<T>(List<(T item, double localZ, double globalZ)> trendingModels) where T : TModel;
     }
 }

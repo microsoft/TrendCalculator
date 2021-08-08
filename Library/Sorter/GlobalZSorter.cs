@@ -5,7 +5,7 @@ using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.Sorter
 {
-    internal class GlobalZSorter<T> : IComparer<(T item, double localZ, double globalZ)> where T : TInterface
+    internal class GlobalZSorter<T> : IComparer<(T item, double localZ, double globalZ)> where T : TModel
     {
         public int Compare((T item, double localZ, double globalZ) x, (T item, double localZ, double globalZ) y)
         {
@@ -13,14 +13,14 @@ namespace TrendsCalculator.Library.Sorter
         }
     }
 
-    internal class SortingBothPositiveNegative<T> : IComparer<(T item, double localZ, double globalZ)> where T : TInterface
+    internal class SortingBothPositiveNegative<T> : IComparer<(T item, double localZ, double globalZ)> where T : TModel
     {
         public int Compare((T item, double localZ, double globalZ) x, (T item, double localZ, double globalZ) y)
         {
             return (x.globalZ <= y.globalZ) ? 1 : -1;
         }
     }
-    internal class SortingAlternate<T> : IComparer<(T item, double localZ, double globalZ)> where T : TInterface
+    internal class SortingAlternate<T> : IComparer<(T item, double localZ, double globalZ)> where T : TModel
 {
         public int Compare((T item, double localZ, double globalZ) x, (T item, double localZ, double globalZ) y)
         {

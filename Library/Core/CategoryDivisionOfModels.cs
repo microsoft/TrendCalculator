@@ -6,7 +6,7 @@ using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.AlgoComponents
 {
-    internal class CategoryDivisionOfModels<T> where T : TInterface
+    internal class CategoryDivisionOfModels<T> where T : TModel
     {
         public List<List<(T item, double localZ, double globalZ)>> GetModelsIntoCategory(List<(T item, double localZ, double globalZ)> trendingModels)
         {

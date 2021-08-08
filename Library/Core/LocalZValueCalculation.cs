@@ -12,7 +12,7 @@ namespace TrendsCalculator.Library.AlgoComponents
     /// This class calculates the value of LocalZ for each of the models
     /// </summary>
     /// <typeparam name="T">TInterface to adhere to</typeparam>
-    internal class LocalZValueCalculation<T> where T : TInterface
+    internal class LocalZValueCalculation<T> where T : TModel
     {
         internal List<(T item,double localZ, double globalZ)> CalculateLocalZValue(List<T> trendingModels, List<int> historicalSegmentColumns, List<int> trendingSegmentColumns)
         {
