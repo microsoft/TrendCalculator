@@ -11,13 +11,13 @@ namespace TrendsCalculator.Test
     public class TrendingCalculatorDemandSupplyCriteriaTest
     {
         [TestMethod]
-        public void TestTrendingCalculatorZMeanCriteria()
+        public void TestTrendingCalculatorDemandSupplyCriteria()
         {
             var trendingStrategy = new DemandSupplyTrendingCalculator();
             var inputData = DataPreparator.PrepareData();
             var output = trendingStrategy.CalculateTrending<TestInputModel>(6, 1, inputData);
-            Assert.AreEqual("ABC", output.First().item.MovieName);
-            Assert.AreEqual("PQR", output.Last().item.MovieName);
+            Assert.AreEqual("ABC", output.First().First().item.MovieName);
+            Assert.AreEqual("PQR", output.Last().First().item.MovieName);
         }
     }
 }

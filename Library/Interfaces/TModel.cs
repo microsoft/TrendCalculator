@@ -7,12 +7,14 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("TrendsCalculator.Test")]
 namespace TrendsCalculator.Library.Interfaces
 {
-    public interface TInterface
+    public class TModel
     {
-       // double LocalZ { get; set; }
-      //  double GlobalZ { get; set; }
-        int SupplyQuantity { get; set; }
-        double DemandSupplyQuotient { get; set; }
-        List<int> CountWithPeriods { get; set; }
+        public List<int> CountWithPeriods { get; set; }
+    }
+
+    public class TDemandSupplyModel: TModel
+    {
+        public int SupplyQuantity { get; set; }
+        public double DemandSupplyQuotient { get; set; }
     }
 }

@@ -25,6 +25,7 @@ Returns a List&lt;T&gt; containing list of trending models.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/microsoft/TrendCalculator</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
 </Project>

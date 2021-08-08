@@ -13,7 +13,7 @@ namespace TrendsCalculator.Test
             var trendingStrategy = new ZMeanTrendingCalculator();
             var inputData = DataPreparator.PrepareData();
             var output = trendingStrategy.CalculateTrending<TestInputModel>(6, 1, inputData);
-            Assert.AreEqual("ABC", output.First().item.MovieName);
+            Assert.AreEqual("ABC", output.First().First().item.MovieName);
         }
     }
 }

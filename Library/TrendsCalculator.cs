@@ -17,14 +17,13 @@ namespace TrendsCalculator.Library
     /// This class classifies the data qualifying for trending and return the trending data
     /// </summary>
     /// <typeparam name="T">TInterface to adhere to</typeparam>
-    public class TrendsCalculator<T> where T : TInterface
+    public class TrendsCalculator
     {
         private TrendCalculationStrategy _strategy = TrendCalculationStrategy.ZMean;
         public TrendsCalculator(TrendCalculationStrategy strategy)
         {
             _strategy = strategy;
         }
-
         
         /// <summary>
         /// This method evaluates the trending data based on the strategy selected
@@ -33,18 +32,12 @@ namespace TrendsCalculator.Library
         /// <param name="numberOfSegmentsOfEachUnit">Number of segments in each window unit. E.g. each window is divided into 2 buckets</param>
         /// <param name="listOfModels">List of T Model containing the input list of data used for finding trending data</param>
         /// <returns></returns>
-        public IEnumerable<T> FindTrendingData(int windowPeriod, int numberOfSegmentsOfEachUnit, List<T> listOfModels)
+        public IEnumerable<T> FindTrendingData<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, List<T> listOfModels) where T: TModel
         {
-            var validationMessage = IsInputDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
+            var validationMessage = IsInputDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels as List<TModel>);
             if (!string.IsNullOrWhiteSpace(validationMessage))
                 throw new ArgumentNullException(validationMessage);
             
-            //var listOfTransformedModels = new List<TInternal>();
-            //List<dynamic> information = new List<dynamic>();
-            
-            //ExtensionMethods.CopyPropertiesTo<T, TInternal>(listOfModels, listOfTransformedModels);
-            //var transformedModel = listOfModels.ConvertAll(new Converter<T, TInternal>(TransformTInterfaceToTInternal));
-
             AbstractTrendingCalculator baseCalculator = null;
             switch (_strategy)
             {
@@ -54,20 +47,34 @@ namespace TrendsCalculator.Library
                 case TrendCalculationStrategy.Custom:
                     baseCalculator = new CustomTrendingCalculator();
                     break;
-                case TrendCalculationStrategy.DemandSupply:
-                    baseCalculator = new DemandSupplyTrendingCalculator();
-                    break;
+                //case TrendCalculationStrategy.DemandSupply:
+                //    baseCalculator = new DemandSupplyTrendingCalculator();
+                //    break;
                 default:
                     baseCalculator = new CustomTrendingCalculator();
                     break;
             }
 
             var trendingModels = baseCalculator.CalculateTrending<T>(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
-            return baseCalculator.PostProcessZScore<T>(trendingModels.ToList()).Select(x => x.item);
+            var sortedModel = baseCalculator.GetSortedCombinedResult<T>(trendingModels);
+            return baseCalculator.PostProcessZScore<T>(sortedModel.ToList()).Select(x => x.item);
         
         }
 
-        private string IsInputDataValid(int windowPeriod, int numberOfSegmentsOfEachUnit, IEnumerable<T> listOfModels)
+        public IEnumerable<T> FindTrendingDataOnDemandSupply<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, List<T> listOfModels) where T: TDemandSupplyModel
+        {
+            var validationMessage = IsInputDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels.ConvertAll(x => (TModel)x));
+            if (!string.IsNullOrWhiteSpace(validationMessage))
+                throw new ArgumentNullException(validationMessage);
+
+            AbstractTrendingCalculator baseCalculator  = new DemandSupplyTrendingCalculator();
+            var trendingModels = baseCalculator.CalculateTrending(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
+            var processedModel = (baseCalculator as DemandSupplyTrendingCalculator).GetSortedCombinedResult(trendingModels);
+            return baseCalculator.PostProcessZScore<T>(processedModel).Select(x => x.item);
+        }
+        
+
+        private string IsInputDataValid(int windowPeriod, int numberOfSegmentsOfEachUnit, List<TModel> listOfModels)
         {
             string validationMessage = string.Empty;
             if (windowPeriod == 0)
