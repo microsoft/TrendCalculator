@@ -1,6 +1,6 @@
-#Trending Calculator
+# Trending Calculator
 
-##Overview
+## Overview
 Trending Calculator is a library for calculating the trending models out of the given list of data.The algorithm takes into account two parameters for calculating the trending models out of the given list of data:-
 
 1. The spike i.e., the trends indicating the picking up of a particular model.
@@ -9,7 +9,7 @@ Trending Calculator is a library for calculating the trending models out of the 
 ## Installation
 To install this library, please download the latest version of  [NuGet Package](https://www.nuget.org/packages/<>/) from [nuget.org](https://www.nuget.org/) and refer it into your project.
 
-##How to use it
+## How to use it
 The library takes four input parameters:-
 
 1. Enum of the type **TrendsCalculationStrategy** which has two predefined enumeration values signifying the type of stratregy required in filtering of results:
@@ -56,7 +56,7 @@ For each of the model, the mean and standard deviation is calculated taking the 
 
 Next we take all the values from the history segment of all the models and calculate mean and standard deviation.This common value of mean and standard deviation is applied to each of the values for a particular model in the trending segment and caluclate the Z values.The mean of these Z values gives out the GlobalZ value for each model.
 
-##Result Calculation:-
+## Result Calculation:-
 
 1. **For the ZMean Strategy** :-
    * The mean of the GlobalZ values for each model is calculated.The models having value of GlobalZ greater than the mean GLobalZ value are taken into the trending list.The trending list is then sorted on the GlobalZ values with the top model being the one with highesh GlobalZ value.The list is then returned.
