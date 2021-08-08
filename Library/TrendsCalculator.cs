@@ -34,10 +34,14 @@ namespace TrendsCalculator.Library
         /// <returns></returns>
         public IEnumerable<T> FindTrendingData<T>(int windowPeriod, int numberOfSegmentsOfEachUnit, List<T> listOfModels) where T: TModel
         {
-            var validationMessage = IsInputDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels as List<TModel>);
+            var validationMessage = IsInputDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels.ConvertAll(x => (TModel)x));
             if (!string.IsNullOrWhiteSpace(validationMessage))
                 throw new ArgumentNullException(validationMessage);
-            
+
+            validationMessage = IsCountWithPeriodsDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels.ConvertAll(x => (TModel)x));
+            if (!string.IsNullOrWhiteSpace(validationMessage))
+                throw new ArgumentException(validationMessage);
+
             AbstractTrendingCalculator baseCalculator = null;
             switch (_strategy)
             {
@@ -47,9 +51,6 @@ namespace TrendsCalculator.Library
                 case TrendCalculationStrategy.Custom:
                     baseCalculator = new CustomTrendingCalculator();
                     break;
-                //case TrendCalculationStrategy.DemandSupply:
-                //    baseCalculator = new DemandSupplyTrendingCalculator();
-                //    break;
                 default:
                     baseCalculator = new CustomTrendingCalculator();
                     break;
@@ -67,7 +68,12 @@ namespace TrendsCalculator.Library
             if (!string.IsNullOrWhiteSpace(validationMessage))
                 throw new ArgumentNullException(validationMessage);
 
-            AbstractTrendingCalculator baseCalculator  = new DemandSupplyTrendingCalculator();
+            validationMessage = IsCountWithPeriodsDataValid(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels.ConvertAll(x => (TModel)x));
+            if (!string.IsNullOrWhiteSpace(validationMessage))
+                throw new ArgumentException(validationMessage);
+
+
+                AbstractTrendingCalculator baseCalculator  = new DemandSupplyTrendingCalculator();
             var trendingModels = baseCalculator.CalculateTrending(windowPeriod, numberOfSegmentsOfEachUnit, listOfModels);
             var processedModel = (baseCalculator as DemandSupplyTrendingCalculator).GetSortedCombinedResult(trendingModels);
             return baseCalculator.PostProcessZScore<T>(processedModel).Select(x => x.item);
@@ -83,6 +89,31 @@ namespace TrendsCalculator.Library
                 validationMessage = "numberOfSegmentsOfEachUnit cannot be zero";
             else if (listOfModels == null || listOfModels.Count() == 0)
                 validationMessage = "listOfModels can't have zero records";
+
+            return validationMessage;
+        }
+
+        private string IsCountWithPeriodsDataValid(int windowPeriod,int numberOfSegmentsOfEachUnit, List<TModel> listOfModels)
+        {
+            string validationMessage = string.Empty;
+            int colLength = listOfModels[0].CountWithPeriods.Count;
+            foreach (var model in listOfModels)
+            {
+                if (model.CountWithPeriods.Count != colLength)
+                {
+                    validationMessage = "All models don't have the same data as columns in CountWithPeriods attribute";
+                    break;
+                }
+            }
+
+            if (!validationMessage.Equals(string.Empty))
+                return validationMessage;
+
+            if (listOfModels?.First()?.CountWithPeriods.Count < (windowPeriod * numberOfSegmentsOfEachUnit) &&
+                    listOfModels?.First()?.CountWithPeriods.Count > ((windowPeriod + 1) * numberOfSegmentsOfEachUnit))
+            {
+                validationMessage = "Insufficient data as columns in the countWithPeriods attribute of the models";
+            }
 
             return validationMessage;
         }

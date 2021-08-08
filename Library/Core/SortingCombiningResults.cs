@@ -10,7 +10,7 @@ namespace TrendsCalculator.Library.AlgoComponents
 {
     internal class SortingCombiningResults
     {
-        public List<(T item, double localZ, double globalZ)> GetSortedCombinedResult<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T : TModel
+        internal List<(T item, double localZ, double globalZ)> GetSortedCombinedResult<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T : TModel
         {
             var BothGlobalZLocalZ_Positive_1 = categoryTrendingModels[0];
             var BothGlobalZLocalZ_Alternate_2 = categoryTrendingModels[1];
@@ -24,7 +24,7 @@ namespace TrendsCalculator.Library.AlgoComponents
             return trendingModels;
         }
 
-        public List<(T item, double localZ, double globalZ)> GetSortedCombinedResultV2<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T : TDemandSupplyModel
+        internal List<(T item, double localZ, double globalZ)> GetSortedCombinedResultV2<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T : TDemandSupplyModel
         {
             var bothGlobalZLocalZ_Positive_1 = categoryTrendingModels[0];
             var bothGlobalZLocalZ_Alternate_2 = categoryTrendingModels[1];

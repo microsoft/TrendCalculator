@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using TrendsCalculator.Library.Helper;
 using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.AlgoComponents
@@ -32,7 +33,8 @@ namespace TrendsCalculator.Library.AlgoComponents
 
                 double mean = (sumHistorySegmentColumn * 1.0) / historicalSegmentColumns.Count;
 
-                double standardDeviation = CalculateStandardDeviation(historicalSegmentValues, mean);
+                CalculationHelper calculationHelper = new CalculationHelper();
+                double standardDeviation = calculationHelper.CalculateStandardDeviation(historicalSegmentValues, mean);
 
                 //In case we meet the corner case of standard deviation coming out to be zero, we set an approximate of standard deviation to be 1 by symmetrical distribution of data
                 if (standardDeviation == 0)
@@ -51,19 +53,6 @@ namespace TrendsCalculator.Library.AlgoComponents
                 //model.LocalZ = LocalZ;
             }
             return calculatedLocalZItems;
-        }
-        //Function to calculate the Standard Deviation
-        private double CalculateStandardDeviation(List<int> values, double mean)
-        {
-            double standardDeviation = 0.0;
-            double summation = 0.0;
-            foreach (int value in values)
-            {
-                summation += Math.Pow(((value * 1.0) - mean), 2);
-            }
-            summation = summation / values.Count;
-            standardDeviation = Math.Sqrt(summation);
-            return standardDeviation;
         }
     }
 }
