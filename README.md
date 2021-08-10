@@ -1,7 +1,7 @@
 # Trending Calculator
 
 ## Overview
-Trending Calculator is a library for calculating the trending models out of the given list of data.The algorithm takes into account two parameters for calculating the trending models out of the given list of data:-
+Trending Calculator is a library for calculating the trending models out of the given list of models.The algorithm takes into account two parameters for calculating the trending models out of the given list of data:-
 
 1. The spike i.e., the trends indicating the picking up of a particular model.
 1. The quantity in which the model is picked up.
@@ -12,36 +12,40 @@ To install this library, please download the latest version of  [NuGet Package](
 ## How to use it
 The library takes four input parameters:-
 
-1. Enum of the type **TrendsCalculationStrategy** which has two predefined enumeration values signifying the type of stratregy required in filtering of results:
+1. Enum of the type **TrendsCalculationStrategy** which has three predefined enumeration values signifying the type of stratregy required in filtering of results:
    1. **ZMean**:- This Enum evaluates and return trending models based on the Z mean value (threshold value is z mean value).
    2. **Custom**:- This Enum gives the the entire list sorted in order of trends evaluated (sorted by global Z, local Z).
    3. **DemandSupply**:- This Enum evaluates and return trending models based on the Demand and Supply. If there is a Demand for a particular entity over a certain period and   
          the supply is less, then it qualifies for the trending. This model also uses beneath the Z-Score model for evaluation.
 
-2. **windowPeriod**:- This integer input defines the period over which the trending models are to be calculated.
+2. **windowPeriod**:- This integer input defines the period over which the trending models are to be calculated. The unit of measurement of time period is irrevelant here. Say for example, you have three months of data for usage of your model, then the windowPeriod would be 3. If you have the 25 days of data for usage of your model, then the windowPeriod would be 25.
 
-3. **numberOfSegmentsOfEachUnit**:- This integer input defines the value that each unit(days/months/year whichever is the unit of the *windowPeriod*, is divided into a particular number of segments.
+3. **numberOfSegmentsOfEachUnit**:- This integer input defines the value that each unit(days/months/year whichever is the unit of the *windowPeriod*, is divided into a particular number of segments. For example, let's say, you have collected data for your models for 6 months, divided into 3 segments of 2 months each, then the value of this input parameter would be 3.
 
 4. **listOfModels<T>**:- This is the input data provided to the algorithm with the list of models over which the trending is to be calculated.
-   1. *listOfModels* should implement the interface *TInterface* of the library which contains the following three attributes: *LocalZ*(double),*GLobalZ*(double),*countWithPeriods*(a list of integer type)
-   2. countWithPeriods consists of the number of times a particular model was consumed in the segments of the windowPeriod. Mathematically speaking , CountWithPeriods.Count should be >= *windowPeriod x noOfSegmentsOfEachUnit* and <= (windowPeriod+1) x noOfSegmentsOfEachUnit.
+   1. *T* should extend the class *TModel* of the library, in case the user choses *ZMean* or *Custom* TrendsCalculationStrategy as mentioned in the point 1 which contains the following attribute: *CountWithPeriods*(a list of integer type), or *T* should extend the class *TDemandSupplyModel* of the library, in case the user choses *DemandSupply* TrendsCalculationStrategy which contains the following attributes:  *CountWithPeriods*(a list of integer type), *SupplyQuantity*(an integer which signifies the actualy supply or consumption of the skill).
+   2. countWithPeriods consists of the number of times a particular model was consumed in the segments of the windowPeriod. Mathematically speaking , CountWithPeriods.Count should be >= *windowPeriod x noOfSegmentsOfEachUnit* and <= *(windowPeriod+1) x noOfSegmentsOfEachUnit*.
     
-    Each of the model type T, should inherit from the TInterface of the NuGet package.
+    Each of the model type T, should extend from either the TModel or the TDemandSupplyModel of the NuGet package.
     
     The algorithm takes into account the virtual windowsPeriod, lets say the algorithm is run for the windowPeriod of 6 months in the month of June 2020 and the data for June is not yet complete, so in order to compensate for that , the data can be provided for December 2019 to June 2020.If not using the virtual windowPeriod, the data must be provided for January 2020 to June 2020.
 
-First, an object of the TrendingDataCalculator class needs to be instantiated with the constructor which takes Enum as input defining the strategy.The example of the code is :-
+First, an object of the TrendsCalculator class needs to be instantiated with the constructor which takes Enum as input defining the strategy.The example of the code is :-
 ```
-var trendingDataCalculator = new TrendingDataCalculator<YourTrendingModelType>(TrendCalculationStrategy.ZMean);
+var trendingCalculator = new TrendsCalculator.Library.TrendsCalculator(TrendCalculationStrategy.DemandSupply);
 ```
 or
 ```
-var trendingDataCalculator = new TrendingDataCalculator<TrendingSkillsModel>(TrendCalculationStrategy.Custom);
+ var trendingCalculator = new TrendsCalculator.Library.TrendsCalculator(TrendCalculationStrategy.Custom);
+```
+or
+```
+ var trendingCalculator = new TrendsCalculator.Library.TrendsCalculator(TrendCalculationStrategy.ZMean);
 ```
 
-The created object then calls the EvalAndGetTrendingData() which takes the three arguments as input : windowPeriod(integer type), numberOfSegmentsOfEachUnit(integer type), listOfModels(list of the models)
+The created object then calls the FindTrendingDataOnDemandSupply() which takes the three arguments as input : windowPeriod(integer type), numberOfSegmentsOfEachUnit(integer type), listOfModels(list of the models)
 ```
-trendingDataCalculator.EvalAndGetTrendingData(windowPeriod, numberOfSegmentsOfEachUnit, listOftrendingModels);
+trendingCalculator.FindTrendingDataOnDemandSupply<TestInputModel>(6, 1, inputData);
 ```
 The method returns the list of models in the trending order as per the strategy specified in the Enum.
 
@@ -50,11 +54,17 @@ The algorithm works on the principle of mathematical stastics conepts of 'Z' val
 
 **ZValue = (observation - mean) / standardDeviation**
 
+ZValue is the statistical quantitative numerical value which accounts for the spikes in the usage of model, and provides us the very basis for comparision.
+
 The algorithm divides the windowPeriod into two segments the history period and the trending period.
 
-For each of the model, the mean and standard deviation is calculated taking the history segment values into account.Then for each of the values in the trending segment of each model, the Z values are calculated.The mean of these Z values gives the LocalZ value for each model.
+For each of the model, the mean and standard deviation is calculated taking the history segment values into account.Then for each of the values in the trending segment of each model, the Z values are calculated.The mean of these Z values gives the LocalZ value for each model. 
 
-Next we take all the values from the history segment of all the models and calculate mean and standard deviation.This common value of mean and standard deviation is applied to each of the values for a particular model in the trending segment and caluclate the Z values.The mean of these Z values gives out the GlobalZ value for each model.
+LocalZ value determines whether the model's demand has spiked in the trending segment as compared to its historical segment. A positive value indicates the model is in demand, a negative value indicates the model's demand has reduced as compared to the historical segment.
+
+Next we take values of all models from the history segment and calculate mean and standard deviation.This common value of mean and standard deviation is applied to each of the values for a particular model in the trending segment and caluclate the Z values.The mean of these Z values gives out the GlobalZ value for each model.
+
+GlobalZ value determines whether the model's demand has spiked over the trending segment in comparision to all the input models supplied.A postiive value suggests that the model demand has spiked in comparision to the global average and a negative value suggests, it's demand has reduced as compared to the global average.
 
 ## Result Calculation:-
 
@@ -69,22 +79,34 @@ Next we take all the values from the history segment of all the models and calcu
      
    Since the GLobalZ is the relativity parameter which tells whether a particular model was picked up more than the other models in the trending segment as compared to the history segment, and LocalZ is the local parameter for a particular model which tells whether a particular skill was picked up more in the trending segment(positive value) as compared to the history segment, the order of the categories mentioned above is 1>2>3
    The models then in the category 1 and category 3 are sorted in descending order of GlobalZ values and models in the category 2 are sorted in the descening order of LocalZ values.The result is combined and then returned.
+
+3. **For the DemandSupply Strategy**:
+   * After calculating the GlobalZ values, we calculate the DemandSupplyQuotient = GlobalZ/SupplyQuantity. This is in accordance with the unitary method of calculating the GlobalZ value of each model per 1 SupplyQuantity.The models are then sorted out into three categories:
+     1. Models having positive GlobalZ and LocalZ values
+     2. Models having alternate signs of GlobalZ and LocalZ values
+     3. Models having negative GLobalZ and LocalZ values
+     
+   Since the GLobalZ is the relativity parameter which tells whether a particular model was picked up more than the other models in the trending segment as compared to the history segment, and LocalZ is the local parameter for a particular model which tells whether a particular skill was picked up more in the trending segment(positive value) as compared to the history segment, the order of the categories mentioned above is 1>2>3
+   The models then are sorted in descending order of DemandSupplyQuotient values in each of the category.The result is combined and then returned.
    
-An example of the model :-
-      ![](DemoModel.png)
-      windowPeriod=2 months ;
-      numberOfSegmentsOfEachUnit=2
+An elaborative example of the process :-
+      ![](./Img&Graphs/demoModel.jpg)
+      windowPeriod=2 months;
+      numberOfSegmentsOfEachUnit=2;(Unit = 1 month, data recorded is in period of 15 days each, twice in a month, hence numberOfSegmentsOfEachUnit = 2)
       
-The table when plotted looks like :-
-
+The table with their count usage when plotted looks like :-
 (with the count for each segment represented on Y-axis and the 15 days segment represented on X-axis)
-![](ResultGraph.png)
+![](./Img&Graphs/countGraph.jpg)
 
-Based on the **Custom Strategy** the order of the skill name are: ***K>J>D>S>G>F>H>L>A>Z***
+The GlobaZ calculation for each of these skills :-
+      ![](./Img&Graphs/globalZModels.jpg)
 
-Based on the **ZMean Strategy** the order of the skills are: ***K>J>D>S***
-(only 4 out of the given 10 are taken into account for trending, because these skills had their GlobalZ value greater than or equal to mean of all GlobalZ values.
+The plot for these GlobalZ values :-
+      ![](./Img&Graphs/globalZGraph.jpg)
 
+The result/ranking of these skills as per trending order using **Custom Strategy** :-
+      ![](./Img&Graphs/Result.jpg)
+      
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
