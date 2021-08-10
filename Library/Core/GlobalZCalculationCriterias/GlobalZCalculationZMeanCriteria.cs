@@ -40,8 +40,7 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
             double countelements = (count * 1.0);
             mean = sumHistorySegmentColumns / countelements;
 
-            CalculationHelper calculationHelper = new CalculationHelper();
-            standardDeviation = calculationHelper.CalculateStandardDeviation(values, mean);
+            standardDeviation = CalculationHelper.CalculateStandardDeviation(values, mean);
 
             //In case we meet the corner case of standard deviation coming out to be zero, we set an approximate of standard deviation to be 1 by symmetrical distribution of data
             if (standardDeviation == 0)

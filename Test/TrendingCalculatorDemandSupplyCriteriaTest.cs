@@ -11,7 +11,7 @@ namespace TrendsCalculator.Test
     public class TrendingCalculatorDemandSupplyCriteriaTest
     {
         [TestMethod]
-        public void TestTrendingCalculatorDemandSupplyCriteria_Suite1()
+        public void TestTrendingCalculatorDemandSupplyCriteria_ShouldRunSuccessfully_Suite1()
         {
             var trendingStrategy = new DemandSupplyTrendingCalculator();
             var inputData = DataPreparator.PrepareDemandData_Suite1();
@@ -21,7 +21,7 @@ namespace TrendsCalculator.Test
         }
 
         [TestMethod]
-        public void TestTrendingCalculatorDemandSupplyCriteria_Suite2()
+        public void TestTrendingCalculatorDemandSupplyCriteria_ShouldRunSuccessfully_Suite2()
         {
             var trendingStrategy = new DemandSupplyTrendingCalculator();
             var inputData = DataPreparator.PrepareDemandData_Suite2();

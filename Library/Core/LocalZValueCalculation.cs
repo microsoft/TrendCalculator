@@ -33,8 +33,7 @@ namespace TrendsCalculator.Library.AlgoComponents
 
                 double mean = (sumHistorySegmentColumn * 1.0) / historicalSegmentColumns.Count;
 
-                CalculationHelper calculationHelper = new CalculationHelper();
-                double standardDeviation = calculationHelper.CalculateStandardDeviation(historicalSegmentValues, mean);
+                double standardDeviation = CalculationHelper.CalculateStandardDeviation(historicalSegmentValues, mean);
 
                 //In case we meet the corner case of standard deviation coming out to be zero, we set an approximate of standard deviation to be 1 by symmetrical distribution of data
                 if (standardDeviation == 0)

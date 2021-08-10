@@ -8,7 +8,7 @@ namespace TrendsCalculator.Test
     public class TrendingCalculatorCustomCriteriaTest
     {
         [TestMethod]
-        public void TestTrendingCalculatorCustomCriteria_Suite1()
+        public void TestTrendingCalculatorCustomCriteria_ShouldRunSuccessfully_Suite1()
         {
             var trendingStrategy = new CustomTrendingCalculator();
             var inputData = DataPreparator.PrepareData_Suite1();
@@ -18,7 +18,7 @@ namespace TrendsCalculator.Test
         }
 
         [TestMethod]
-        public void TestTrendingCalculatorCustomCriteria_Suite2()
+        public void TestTrendingCalculatorCustomCriteria_ShouldRunSuccessfully_Suite2()
         {
             var trendingStrategy = new CustomTrendingCalculator();
             var inputData = DataPreparator.PrepareData_Suite2();

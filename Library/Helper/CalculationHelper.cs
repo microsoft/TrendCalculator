@@ -4,9 +4,9 @@ using System.Text;
 
 namespace TrendsCalculator.Library.Helper
 {
-    internal class CalculationHelper
+    internal static class CalculationHelper
     {
-        internal double CalculateStandardDeviation(List<int> values, double mean)
+        internal static double CalculateStandardDeviation(List<int> values, double mean)
         {
             double standardDeviation = 0.0;
             double summation = 0.0;

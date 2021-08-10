@@ -11,7 +11,7 @@ namespace TrendsCalculator.Test
     public class TrendsCalculatorTest
     {
         [TestMethod]
-        public void TrendsCalculatorTest_CustomCriteria_Suite1()
+        public void TrendsCalculatorTest_CustomCriteria_ShouldRunSuccessfully_Suite1()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.Custom);
             var inputData = DataPreparator.PrepareData_Suite1();
@@ -23,7 +23,7 @@ namespace TrendsCalculator.Test
         }
 
         [TestMethod]
-        public void TrendsCalculatorTest_CustomCriteria_Suite2()
+        public void TrendsCalculatorTest_CustomCriteria_ShouldRunSuccessfully_Suite2()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.Custom);
             var inputData = DataPreparator.PrepareData_Suite2();
@@ -36,7 +36,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TrendsCalculatorTest_CustomCriteria_Suite3()
+        public void TrendsCalculatorTest_CustomCriteria_IncorrectData_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.Custom);
             var inputData = DataPreparator.PrepareData_Suite3();
@@ -45,7 +45,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TrendsCalculatorTest_CustomCriteria_Suite4()
+        public void TrendsCalculatorTest_BlankRecords_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.Custom);
             var inputData = DataPreparator.PrepareData_Suite4();
@@ -54,7 +54,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TrendsCalculatorTest_CustomCriteria_windowPeriodToBeZero()
+        public void TrendsCalculatorTest_CustomCriteria_windowPeriodToBeZero_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.Custom);
             var inputData = DataPreparator.PrepareData_Suite1();
@@ -63,7 +63,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TrendsCalculatorTest_CustomCriteria_numberOfSegmentsOfEachUnitToBeZero()
+        public void TrendsCalculatorTest_CustomCriteria_numberOfSegmentsOfEachUnitToBeZero_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.Custom);
             var inputData = DataPreparator.PrepareData_Suite4();
@@ -71,7 +71,7 @@ namespace TrendsCalculator.Test
         }
 
         [TestMethod]
-        public void TrendsCalculatorTest_ZMeanCriteria_Suite1()
+        public void TrendsCalculatorTest_ZMeanCriteria_ShouldRunSuccessfully_Suite1()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.ZMean);
             var inputData = DataPreparator.PrepareData_Suite1();
@@ -83,7 +83,7 @@ namespace TrendsCalculator.Test
         }
 
         [TestMethod]
-        public void TrendsCalculatorTest_ZMeanCriteria_Suite2()
+        public void TrendsCalculatorTest_ZMeanCriteria_ShouldRunSuccessfully_Suite2()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.ZMean);
             var inputData = DataPreparator.PrepareData_Suite2();
@@ -96,7 +96,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TrendsCalculatorTest_ZMeanCriteria_Suite3()
+        public void TrendsCalculatorTest_ZMeanCriteria_IncorrectData_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.ZMean);
             var inputData = DataPreparator.PrepareData_Suite3();
@@ -105,7 +105,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TrendsCalculatorTest_ZMeanCriteria_Suite4()
+        public void TrendsCalculatorTest_ZMeanCriteria_BlankRecords_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.ZMean);
             var inputData = DataPreparator.PrepareData_Suite4();
@@ -114,7 +114,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TrendsCalculatorTest_ZMeanCriteria_windowPeriodToBeZero()
+        public void TrendsCalculatorTest_ZMeanCriteria_windowPeriodToBeZero_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.ZMean);
             var inputData = DataPreparator.PrepareData_Suite1();
@@ -123,7 +123,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TrendsCalculatorTest_ZMeanCriteria_numberOfSegmentsOfEachUnitToBeZero()
+        public void TrendsCalculatorTest_ZMeanCriteria_numberOfSegmentsOfEachUnitToBeZero_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.ZMean);
             var inputData = DataPreparator.PrepareData_Suite1();
@@ -131,7 +131,7 @@ namespace TrendsCalculator.Test
         }
 
         [TestMethod]
-        public void TrendsCalculatorTest_DemandSupplyCriteria_Suite1()
+        public void TrendsCalculatorTest_DemandSupplyCriteria_ShouldRunSuccessfully_Suite1()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.DemandSupply);
             var inputData = DataPreparator.PrepareDemandData_Suite1();
@@ -143,7 +143,7 @@ namespace TrendsCalculator.Test
         }
 
         [TestMethod]
-        public void TrendsCalculatorTest_DemandSupplyCriteria_Suite2()
+        public void TrendsCalculatorTest_DemandSupplyCriteria_ShouldRunSuccessfully_Suite2()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.DemandSupply);
             var inputData = DataPreparator.PrepareDemandData_Suite2();
@@ -156,7 +156,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TrendsCalculatorTest_DemandSupplyCriteria_Suite3()
+        public void TrendsCalculatorTest_DemandSupplyCriteria_IncorrectData_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.DemandSupply);
             var inputData = DataPreparator.PrepareDemandData_Suite3();
@@ -165,7 +165,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TrendsCalculatorTest_DemandSupplyCriteria_Suite4()
+        public void TrendsCalculatorTest_DemandSupplyCriteria_BlankRecords_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.DemandSupply);
             var inputData = DataPreparator.PrepareDemandData_Suite4();
@@ -174,7 +174,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TrendsCalculatorTest_DemandSupplyCriteria_windowPeriodToBeZero()
+        public void TrendsCalculatorTest_DemandSupplyCriteria_windowPeriodToBeZero_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.DemandSupply);
             var inputData = DataPreparator.PrepareDemandData_Suite1();
@@ -183,7 +183,7 @@ namespace TrendsCalculator.Test
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void TrendsCalculatorTest_DemandSupplyCriteria_numberOfSegmentsOfEachUnitToBeZero()
+        public void TrendsCalculatorTest_DemandSupplyCriteria_numberOfSegmentsOfEachUnitToBeZero_ShouldGiveException()
         {
             var trendingCalculator = new Library.TrendsCalculator(TrendCalculationStrategy.DemandSupply);
             var inputData = DataPreparator.PrepareDemandData_Suite1();
