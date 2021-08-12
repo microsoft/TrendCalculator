@@ -15,6 +15,5 @@ namespace TrendsCalculator.Library.Interfaces
     public class TDemandSupplyModel: TModel
     {
         public int SupplyQuantity { get; set; }
-        public double DemandSupplyQuotient { get; set; }
     }
 }

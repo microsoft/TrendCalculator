@@ -12,10 +12,6 @@
         /// <summary>
         /// Custom strategy will return the Z mean but won't filter the results based on any threshold.
         /// </summary>
-        Custom,
-        /// <summary>
-        /// Demand-Supply Srategy will return the trending data considering the demand/supply concept into consideration
-        /// </summary>
-        DemandSupply
+        Custom
     }
 }

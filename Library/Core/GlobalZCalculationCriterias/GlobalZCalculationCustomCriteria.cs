@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using TrendsCalculator.Library.Helper;
 using TrendsCalculator.Library.Interfaces;
 
 namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
@@ -34,7 +35,8 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
 
             double countelements = (count * 1.0);
             mean = sumHistorySegmentColumns / countelements;
-            standardDeviation = CalculateStandardDeviation(values, mean);
+
+            standardDeviation = CalculationHelper.CalculateStandardDeviation(values, mean);
 
             //In case we meet the corner case of standard deviation coming out to be zero, we set an approximate of standard deviation to be 1 by symmetrical distribution of data
             if (standardDeviation == 0)
@@ -54,19 +56,6 @@ namespace TrendsCalculator.Library.AlgoComponents.GlobalZCalculationCriterias
             }
 
             return trendingModels;
-        }
-
-        double CalculateStandardDeviation(List<int> values, double mean)
-        {
-            double standardDeviation = 0.0;
-            double summation = 0.0;
-            foreach (int value in values)
-            {
-                summation += Math.Pow((value * 1.0) - mean, 2);
-            }
-            summation /= values.Count;
-            standardDeviation = Math.Sqrt(summation);
-            return standardDeviation;
         }
     }
 }
