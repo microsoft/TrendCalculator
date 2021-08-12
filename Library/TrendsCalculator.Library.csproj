@@ -5,23 +5,26 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Description>Calculate Trending Models for a given input data bucketed windows period, with each window segmented into equal parts.
-Models must contain these three attributes:-
-1)LocalZ(double)
-2)GlobalZ(double)
-3)CountWithPeriods(List&lt;int&gt;) with 
-size of list is greater than or equal to (windowPeriod)*number of segments of each unit
-AND
-size of list less than or equal to (windowPeriod+1)*number of segments of each unit
+    <Description>Trending Calculator is a library for calculating the trending models out of the given list of models.The algorithm takes into account primarily two parameters for calculating the trending models out of the given list of data:-
 
-Returns a List&lt;T&gt; containing list of trending models.</Description>
-    <Version>1.0.3</Version>
+The spike i.e., the trends indicating the picking up of a particular model.
+The quantity in which the model is picked up.
+
+Three modes for calculation:
+a. ZMean criteria.
+b. Custom
+c. DemandSupply
+
+Please visit the github documentation on how to consume.</Description>
+    <Version>2.0.0</Version>
     <PackageId>TrendsCalculator</PackageId>
-    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <PackageReleaseNotes>This release contains below changes:
+a. Renaming of the calculation methods.
+b. Abstraction of the internal models from the output. The result will be sorted per the algorithm type without revealing internal scores.</PackageReleaseNotes>
     <Authors>Purunjay Bhal, Puneet Walecha</Authors>
     <Company>Microsoft</Company>
     <Product>TrendsCalculator</Product>
-    <PackageTags>Trending, Trend, Statistics, C#</PackageTags>
+    <PackageTags>Trending, Trends, Statistics, C#, Z-Score</PackageTags>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/microsoft/TrendCalculator</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
