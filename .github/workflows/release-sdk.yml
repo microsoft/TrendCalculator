@@ -16,7 +16,7 @@ jobs:
     - name: Build
       run: dotnet build Library/TrendsCalculator.Library.csproj --no-restore
     - name: Test
-      run: dotnet test Test/TrendsCalculatorTest.csproj --no-restore --verbosity normal
+      run: dotnet test Test/TrendsCalculator.Test.csproj --no-restore --verbosity normal
     - name: Pack
       run: dotnet pack Library/TrendsCalculator.Library.csproj
     - name: Publish
