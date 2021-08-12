@@ -19,30 +19,37 @@ namespace TrendsCalculator.Library.TrendingCalculatorForModelsStrategy
             return new GlobalZCalculationCustomCriteria();
         }
         
-        public new List<(T item, double localZ, double globalZ)> GetSortedCombinedResult<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T : TDemandSupplyModel
+        public new List<(T item, double localZ, double globalZ, double DemandSupplyQuotient)> GetSortedCombinedResult<T>(List<List<(T item, double localZ, double globalZ)>> categoryTrendingModels) where T : TDemandSupplyModel
         {
             var list = CalculateQuotient<T>(categoryTrendingModels);
             var sortingCombiningResults = new SortingCombiningResults();
             return sortingCombiningResults.GetSortedCombinedResultV2<T>(list);
         }
-        private List<List<(Y item, double localZ, double globalZ)>> CalculateQuotient<Y>(List<List<(Y item, double localZ, double globalZ)>> categoryTrendingModels) where Y: TDemandSupplyModel
+        private List<List<(Y item, double localZ, double globalZ,double DemandSupplyQuotient)>> CalculateQuotient<Y>(List<List<(Y item, double localZ, double globalZ)>> categoryTrendingModels) where Y: TDemandSupplyModel
         {
+            var categoryDemandSupplyTrendingModels = new List<List<(Y item, double localZ, double globalZ, double DemandSupplyQuotient)>>();
+
             for (int i = 0; i < categoryTrendingModels.Count; i++)
             {
+                var transformedModelCategory = new List<(Y item, double localZ, double globalZ, double DemandSupplyQuotient)>();
                 for (int j = 0; j < categoryTrendingModels[i].Count; j++)
                 {
-                    double denominator = 1.0;
+                    double denominator;
                     if (categoryTrendingModels[i][j].item.SupplyQuantity == 0)
                         denominator = 1.0;
                     else
                         denominator = (double)(categoryTrendingModels[i][j].item.SupplyQuantity * 1.0);
 
                     double quotient = (double)(categoryTrendingModels[i][j].globalZ / denominator);
-                    categoryTrendingModels[i][j].item.DemandSupplyQuotient = quotient;
+                    transformedModelCategory.Add((categoryTrendingModels[i][j].item,
+                                                categoryTrendingModels[i][j].localZ,
+                                                categoryTrendingModels[i][j].globalZ, 
+                                                quotient));
                 }
+                categoryDemandSupplyTrendingModels.Add(transformedModelCategory);
             }
 
-            return categoryTrendingModels;
+            return categoryDemandSupplyTrendingModels;
         }
 
         internal override List<(T item, double localZ, double globalZ)> PostProcessZScore<T>(List<(T item, double localZ, double globalZ)> trendingModels)
