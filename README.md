@@ -96,22 +96,22 @@ GlobalZ value determines whether the model's demand has spiked over the trending
    The models then are sorted in descending order of DemandSupplyQuotient values in each of the category.The result is combined and then returned.
    
 An elaborative example of the process :-
-      ![](./Img&Graphs/demoModel.jpg)
+      ![](Img&Graphs/demoModel.jpg)
       windowPeriod=2 months;
       numberOfSegmentsOfEachUnit=2;(Unit = 1 month, data recorded is in period of 15 days each, twice in a month, hence numberOfSegmentsOfEachUnit = 2)
       
 The table with their count usage when plotted looks like :-
 (with the count for each segment represented on Y-axis and the 15 days segment represented on X-axis)
-![](./Img&Graphs/countGraph.jpg)
+![](Img&Graphs/countGraph.jpg)
 
 The GlobaZ calculation for each of these skills :-
-      ![](./Img&Graphs/globalZModels.jpg)
+      ![](Img&Graphs/globalZModels.jpg)
 
 The plot for these GlobalZ values :-
-      ![](./Img&Graphs/globalZGraph.jpg)
+      ![](Img&Graphs/globalZGraph.jpg)
 
 The result/ranking of these skills as per trending order using **Custom Strategy** :-
-      ![](./Img&Graphs/Result.jpg)
+      ![](Img&Graphs/Result.jpg)
       
 ## Contributing
 
