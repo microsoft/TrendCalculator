@@ -12,12 +12,12 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Install dependencies
-      run: dotnet restore TrendsCalculator.Library/TrendsCalculator.Library.csproj
+      run: dotnet restore Library/TrendsCalculator.Library.csproj
     - name: Build
-      run: dotnet build TrendsCalculator.Library/TrendsCalculator.Library.csproj --no-restore
+      run: dotnet build Library/TrendsCalculator.Library.csproj --no-restore
     - name: Test
-      run: dotnet test TrendsCalculator.Library/TrendsCalculator.Library.csproj --no-restore --verbosity normal
+      run: dotnet test Test/TrendsCalculatorTest.csproj --no-restore --verbosity normal
     - name: Pack
-      run: dotnet pack TrendsCalculator.Library/TrendsCalculator.Library.csproj
+      run: dotnet pack Library/TrendsCalculator.Library.csproj
     - name: Publish
       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
