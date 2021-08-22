@@ -1,10 +1,10 @@
 # Trending Calculator
 
 ## Overview
-Trending Calculator is a library for calculating the trending models out of the given list of models.The algorithm takes into account two parameters for calculating the trending models out of the given list of data:-
+Trending Calculator is a library for calculating the trending models out of the given list of models (raw data).The algorithm takes into account two parameters for calculating the trending models out of the given list of data:-
 
 1. The spike i.e., the trends indicating the picking up of a particular model.
-1. The quantity in which the model is picked up.
+1. The quantity/volume in which the model is picked up.
 
 ## Installation
 To install this library, please download the latest version of  [NuGet Package](https://www.nuget.org/packages/TrendsCalculator/) from [nuget.org](https://www.nuget.org/) and refer it into your project.
@@ -16,14 +16,14 @@ The library takes four input parameters:-
    1. **ZMean**:- This Enum evaluates and return trending models based on the Z mean value (threshold value is z mean value).
    2. **Custom**:- This Enum gives the the entire list sorted in order of trends evaluated (sorted by global Z, local Z).
 
-2. **windowPeriod**:- This integer input defines the period over which the trending models are to be calculated. The unit of measurement of time period is irrevelant here. Say for example, you have three months of data for usage of your model, then the windowPeriod would be 3. If you have the 25 days of data for usage of your model, then the windowPeriod would be 25.
+2. **windowPeriod**:- This integer input defines the period over which the trending models are to be calculated. The unit of measurement of time period is irrevelant here. Say for example, you have three months of data for usage of your model, then the windowPeriod could be 3 (months). If you have the 25 days of data for usage of your model, then the windowPeriod could be 25 (days).
 
-3. **numberOfSegmentsOfEachUnit**:- This integer input defines the value that each unit(days/months/year whichever is the unit of the *windowPeriod*, is divided into a particular number of segments. For example, let's say, you have collected data for your models for 6 months, divided into 3 segments of 2 months each, then the value of this input parameter would be 3.
+3. **numberOfSegmentsOfEachUnit**:- This integer input defines the value that each unit(days/months/year) whichever is the unit of the *windowPeriod*, is divided into a particular number of segments. For example, let's say, you have collected data for your models for 6 months, divided into 3 segments of 2 months each, then the value of this input parameter would be 3.
 
-4. **listOfModels<T>**:- This is the input data provided to the algorithm with the list of models over which the trending is to be calculated.
-   1. *T* should extend the class *TModel* of the library, in case the user choses *ZMean* or *Custom* TrendsCalculationStrategy as mentioned in the point 1 which contains the following attribute: *CountWithPeriods*(a list of integer type), or *T* should extend the class *TDemandSupplyModel* of the library, in case the user choses to evalute the trending data via the *Demand-Supply* :  *CountWithPeriods*(a list of integer type), *SupplyQuantity*(an integer which signifies the actualy supply or consumption of the skill).
+4. **listOfModels<T>**:- This is the input data provided to the algorithm with the list of models (raw data) over which the trending is to be calculated.
+   1. *T* should extend the class *TModel* of the library, in case the user choses *ZMean* or *Custom* as the TrendsCalculationStrategy. which contains the following attribute: *CountWithPeriods*(a list of integer type), or *T* should extend the class *TDemandSupplyModel* of the library, in case the user choses to evalute the trending data via the *Demand-Supply* :  *CountWithPeriods*(a list of integer type), *SupplyQuantity*(an integer which signifies the actualy supply or consumption of the skill).
 
-   *Demand-Supply* here means, that the model usage count which user provides as input via *CountWithPeriods* is the demand of the model, and *SupplyQuantity* will indicate the actual usage or consumption of that model. The trending order of models is then calcualted taking this scenario in consideration.
+   *Demand-Supply* here means, that the model usage count which the user provides as input via *CountWithPeriods* is the demand of the model, and *SupplyQuantity* will indicate the actual usage or consumption of that model. The trending order of models is then calcualted taking this scenario in consideration. E.g. If a skill of Azure SQL is in demand (i.e. the CountWithPeriods value is quite high), but the supply (SupplyQuantity) is relatively lower, then this is a factor considered to mark this skill as a trending.
 
    2. countWithPeriods consists of the number of times a particular model was consumed in the segments of the windowPeriod. Mathematically speaking , CountWithPeriods.Count should be >= *windowPeriod x noOfSegmentsOfEachUnit* and <= *(windowPeriod+1) x noOfSegmentsOfEachUnit*.
     
@@ -92,7 +92,7 @@ GlobalZ value determines whether the model's demand has spiked over the trending
      2. Models having alternate signs of GlobalZ and LocalZ values
      3. Models having negative GLobalZ and LocalZ values
      
-   Since the GLobalZ is the relativity parameter which tells whether a particular model was picked up more than the other models in the trending segment as compared to the history segment, and LocalZ is the local parameter for a particular model which tells whether a particular skill was picked up more in the trending segment(positive value) as compared to the history segment, the order of the categories mentioned above is 1>2>3
+   Since the GlobalZ is the relativity parameter which tells whether a particular model was picked up more than the other models in the trending segment as compared to the history segment, and LocalZ is the local parameter for a particular model which tells whether a particular skill was picked up more in the trending segment(positive value) as compared to the history segment, the order of the categories mentioned above is 1>2>3
    The models then are sorted in descending order of DemandSupplyQuotient values in each of the category.The result is combined and then returned.
    
 An elaborative example of the process :-
